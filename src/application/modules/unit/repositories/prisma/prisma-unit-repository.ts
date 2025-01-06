@@ -9,8 +9,8 @@ import { prismaGetUnits } from './functions/get-units';
 import { prismaUpdateUnit } from './functions/update-unit';
 
 export class PrismaUnitRepository implements UnitRepository {
-  async changeChaptersCount(unitId: string, operation: CountOperation): Promise<void> {
-    await prismaChangeChapertsCount(unitId, operation);
+  async changeChaptersCount(unit: Unit, operation: CountOperation): Promise<void> {
+    await prismaChangeChapertsCount(unit, operation);
   }
 
   async getUnit(unitId: string): Promise<Unit | null> {

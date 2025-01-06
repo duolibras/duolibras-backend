@@ -1,14 +1,13 @@
 import { prismaClient } from '@/application/shared/clients/prisma-clients';
 import { CountOperation } from '@/application/shared/types/count-operation';
+import { Chapter } from '../../../entities/chapter';
 
-export async function prismaChangeLessonsCount(chapterId: string, operation: CountOperation) {
-  const chapter = await prismaClient.chapter.findUnique({ where: { id: chapterId }, select: { lessonsCount: true } });
-
+export async function prismaChangeLessonsCount(chapter: Chapter, operation: CountOperation) {
   const previousLessonCount = chapter?.lessonsCount ?? 0;
 
   await prismaClient.chapter.update({
     where: {
-      id: chapterId,
+      id: chapter.id,
     },
     data: {
       lessonsCount: operation === 'INCREMENT' ? previousLessonCount + 1 : previousLessonCount - 1

@@ -7,5 +7,5 @@ export interface ChapterRepository {
   deleteChapter(chapterId: string): Promise<void>
   getChapters(unitId: string): Promise<Chapter[]>
   getChapter(chapterId: string): Promise<Chapter | null>
-  changeLessonsCount(chapterId: string, operation: CountOperation): Promise<void>;
+  changeLessonsCount(chapter: Chapter, operation: CountOperation): Promise<void>;
 }

@@ -9,8 +9,8 @@ import { prismaGetChapters } from './functions/get-chapters';
 import { prismaUpdateChapter } from './functions/update-chapter';
 
 export class PrismaChapterRepository implements ChapterRepository {
-  async changeLessonsCount(chapterId: string, operation: CountOperation): Promise<void> {
-    await prismaChangeLessonsCount(chapterId, operation);
+  async changeLessonsCount(chapter: Chapter, operation: CountOperation): Promise<void> {
+    await prismaChangeLessonsCount(chapter, operation);
   }
 
   async getChapter(chapterId: string): Promise<Chapter | null> {

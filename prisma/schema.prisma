@@ -87,7 +87,7 @@ model Lesson {
 
   modules               Module[]
   machineLearningModels LessonMLModel[]
-  Chapter               Chapter         @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  chapter               Chapter         @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")

@@ -1,5 +1,6 @@
-import { ChangeChaptersCountUseCase } from '@/application/modules/unit/use-cases/change-chapters-count/change-chapters-count-use-case';
+import { UnitRepository } from '@/application/modules/unit/repositories/unit-repository';
 import { InternalServerHTTPError } from '@/application/shared/http/errors/internal-server-http-error';
+import { NotFoundHTTPError } from '@/application/shared/http/errors/not-found-http-error';
 import { IUseCase } from '@/application/shared/http/interfaces/use-case';
 import { Chapter } from '../../entities/chapter';
 import { ChapterRepository } from '../../repositories/chapter-repository';
@@ -17,10 +18,16 @@ interface IOutput {
 export class CreateChapterUseCase implements IUseCase<IInput, IOutput> {
   constructor(
     private readonly chapterRepo: ChapterRepository,
-    private readonly changeChaptersCountUseCase: ChangeChaptersCountUseCase,
+    private readonly unitRepo: UnitRepository,
   ) {}
 
   async execute({ name, description, unitId }: IInput): Promise<IOutput> {
+    const unit = await this.unitRepo.getUnit(unitId);
+
+    if (!unit) {
+      throw new NotFoundHTTPError('Unidade não encontrada');
+    }
+
     const chapter = new Chapter({
       name,
       description,
@@ -31,7 +38,7 @@ export class CreateChapterUseCase implements IUseCase<IInput, IOutput> {
     try {
       await this.chapterRepo.createChapter(chapter);
 
-      await this.changeChaptersCountUseCase.execute({ operation: 'INCREMENT', unitId: chapter.unitId });
+      await this.unitRepo.changeChaptersCount(unit, 'INCREMENT');
 
       return {
         chapter

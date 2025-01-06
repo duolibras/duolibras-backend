@@ -4,6 +4,7 @@ import { makeAuthenticationMiddleware } from '../../../application/shared/http/m
 import { middlewareAdapter } from '../adapters/middleware-adapter';
 import { authRouter } from './auth-router';
 import { chaptersRouter } from './chapter-router';
+import { lessonsRouter } from './lesson-router';
 import { unitsRouter } from './unit-router';
 
 export const appRouter = Router();
@@ -17,4 +18,7 @@ appRouter.use('/chapters',
   middlewareAdapter(makeAuthenticationMiddleware()),
   chaptersRouter,
 );
-
+appRouter.use('/lessons',
+  middlewareAdapter(makeAuthenticationMiddleware()),
+  lessonsRouter,
+);
