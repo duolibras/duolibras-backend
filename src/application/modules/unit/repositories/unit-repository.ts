@@ -1,3 +1,4 @@
+import { CountOperation } from '@/application/shared/types/count-operation';
 import { Unit } from '../entities/unit';
 
 export interface UnitRepository {
@@ -6,4 +7,5 @@ export interface UnitRepository {
   deleteUnit(unitId: string): Promise<void>
   getUnits(): Promise<Unit[]>
   getUnit(unitId: string): Promise<Unit | null>
+  changeChaptersCount(unitId: string, operation: CountOperation): Promise<void>;
 }
