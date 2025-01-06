@@ -1,5 +1,7 @@
+import { CountOperation } from '@/application/shared/types/count-operation';
 import { Chapter } from '../../entities/chapter';
 import { ChapterRepository } from '../chapter-repository';
+import { prismaChangeLessonsCount } from './functions/change-lessons-count';
 import { prismaCreateChapter } from './functions/create-chapter';
 import { prismaDeleteChapter } from './functions/delete-chapter';
 import { prismaGetChapter } from './functions/get-chapter';
@@ -7,6 +9,10 @@ import { prismaGetChapters } from './functions/get-chapters';
 import { prismaUpdateChapter } from './functions/update-chapter';
 
 export class PrismaChapterRepository implements ChapterRepository {
+  async changeLessonsCount(chapterId: string, operation: CountOperation): Promise<void> {
+    await prismaChangeLessonsCount(chapterId, operation);
+  }
+
   async getChapter(chapterId: string): Promise<Chapter | null> {
     return prismaGetChapter(chapterId);
   }
