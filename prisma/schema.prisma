@@ -33,3 +33,144 @@ model Role {
 
   @@map("roles")
 }
+
+model Unit {
+  id            String @id
+  name          String
+  chaptersCount Int    @map("chapters_count")
+
+  chapters Chapter[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("units")
+}
+
+model Chapter {
+  id           String @id
+  name         String
+  description  String
+  lessonsCount Int    @map("lessons_count")
+  unitId       String @map("unit_id")
+
+  unit    Unit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  lessons Lesson[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("chapters")
+}
+
+model MachineLearningModel {
+  id          String @id
+  name        String
+  description String
+  wheightsUrl String @map("wheights_url")
+  modelUrl    String @map("model_url")
+  metadataUrl String @map("metadata_url")
+
+  machineLearningModels LessonMLModel[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("machine_learning_models")
+}
+
+model Lesson {
+  id           String @id
+  name         String
+  modulesCount Int    @map("modules_count")
+  chapterId    String @map("chapter_id")
+
+  modules               Module[]
+  machineLearningModels LessonMLModel[]
+  Chapter               Chapter         @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("lessons")
+}
+
+model LessonMLModel {
+  lessonId               String @map("lessonId")
+  machineLearningModelId String @map("machine_learning_model_id")
+
+  lesson               Lesson               @relation(fields: [lessonId], references: [id])
+  machineLearningModel MachineLearningModel @relation(fields: [machineLearningModelId], references: [id])
+
+  @@id([lessonId, machineLearningModelId])
+  @@map("lesson_machine_learning_model")
+}
+
+enum ModelType {
+  CONTENT
+  QUESTION
+}
+
+model Module {
+  id         String    @id
+  name       String
+  lessonId   String    @map("lesson_id")
+  contentId  String?   @unique @map("content_id")
+  questionId String?   @unique @map("question_id")
+  type       ModelType
+
+  content  Content?  @relation(fields: [contentId], references: [id])
+  question Question? @relation(fields: [questionId], references: [id])
+  Lesson   Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("modules")
+}
+
+model Content {
+  id          String @id
+  name        String
+  description String
+  videoUrl    String @map("video_url")
+
+  Module Module?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("contents")
+}
+
+enum QuestionType {
+  VIDEO
+  SINGLE_CHOICE
+}
+
+model Question {
+  id          String       @id
+  name        String
+  description String
+  videoUrl    String?      @map("video_url")
+  type        QuestionType
+
+  Module Module?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("questions")
+}
+
+model Answer {
+  id          String  @id
+  description String?
+  videoUrl    String? @map("video_url")
+  isCorrect   Boolean @map("is_correct")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("answers")
+}
