@@ -1,12 +1,12 @@
-import { ModuleType, Module as RawModule } from '@prisma/client';
-import { Module } from '../entities/module';
+import { Module as RawModule } from '@prisma/client';
+import { Module, ModuleType } from '../entities/module';
 
 export class ModuleMapper {
   static toDomain(data: RawModule): Module {
     return new Module({
       id: data.id,
       lessonId: data.lessonId,
-      type: data.type,
+      type: data.type as ModuleType,
       contentId: data.contentId,
       questionId: data.questionId,
       createdAt: data.createdAt,

@@ -6,7 +6,7 @@ export enum ModuleType {
 }
 
 export interface ModuleProps extends IEntityProps {
-  type: ModuleType[keyof ModuleType];
+  type: ModuleType;
   lessonId: string;
   contentId?: string | null;
   questionId?: string | null;
@@ -20,7 +20,7 @@ export class Module extends Entity {
     this.props = props;
   }
 
-  public get type(): ModuleType[keyof ModuleType] {
+  public get type(): ModuleType {
     return this.props.type;
   }
 

@@ -4,6 +4,7 @@ import { makeAuthenticationMiddleware } from '../../../application/shared/http/m
 import { middlewareAdapter } from '../adapters/middleware-adapter';
 import { authRouter } from './auth-router';
 import { chaptersRouter } from './chapter-router';
+import { contentsRouter } from './content-router';
 import { lessonsRouter } from './lesson-router';
 import { modulesRouter } from './modules-router';
 import { unitsRouter } from './unit-router';
@@ -17,3 +18,4 @@ appRouter.use('/units', authMiddleware, unitsRouter);
 appRouter.use('/chapters', authMiddleware, chaptersRouter);
 appRouter.use('/lessons', authMiddleware, lessonsRouter);
 appRouter.use('/modules', authMiddleware, modulesRouter);
+appRouter.use('/contents', authMiddleware, contentsRouter);

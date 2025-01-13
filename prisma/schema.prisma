@@ -89,8 +89,9 @@ model Lesson {
   machineLearningModels LessonMLModel[]
   chapter               Chapter         @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @default(now()) @updatedAt() @map("updated_at")
+  Content   Content[]
 
   @@map("lessons")
 }
@@ -118,8 +119,8 @@ model Module {
   questionId String?    @unique @map("question_id")
   type       ModuleType
 
-  content  Content?  @relation(fields: [contentId], references: [id])
-  question Question? @relation(fields: [questionId], references: [id])
+  content  Content?  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  question Question? @relation(fields: [questionId], references: [id], onDelete: Cascade)
   lesson   Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now()) @map("created_at")
@@ -133,8 +134,10 @@ model Content {
   name        String
   description String
   videoUrl    String @map("video_url")
+  lessonId    String @map("lesson_id")
 
-  Module Module?
+  lesson Lesson  @relation(fields: [lessonId], references: [id])
+  module Module?
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
