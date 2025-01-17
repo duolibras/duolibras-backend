@@ -44,7 +44,7 @@ cp .env.example .env
 Configure o arquivo .env com suas variáveis:
 
 ```env
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/duolibras?schema=public"
+DATABASE_URL="postgresql://duolibras-postgres:duolibras-postgres@localhost:5432/duolibras-db?schema=public"
 JWT_SECRET="sua-chave-secreta"
 ```
 
