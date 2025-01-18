@@ -23,7 +23,7 @@ contentsRouter.get('/:contentId',
   routeAdapter(makeGetContentController())
 );
 contentsRouter.get('/lesson/:lessonId',
-  middlewareAdapter(makeAuthorizationMiddleware([Roles.ADMIN, Roles.STUDENT])),
+  middlewareAdapter(makeAuthorizationMiddleware([Roles.ADMIN])),
   routeAdapter(makeGetContentsController())
 );
 contentsRouter.put('/:contentId',

@@ -14,7 +14,7 @@ model Account {
   password String
   roleCode String @map("role_code")
 
-  role Role @relation(fields: [roleCode], references: [code])
+  role Role @relation(fields: [roleCode], references: [code], onDelete: Restrict)
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
@@ -86,12 +86,13 @@ model Lesson {
   chapterId    String @map("chapter_id")
 
   modules               Module[]
+  contents              Content[]
+  questions             Question[]
   machineLearningModels LessonMLModel[]
   chapter               Chapter         @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @default(now()) @updatedAt() @map("updated_at")
-  Content   Content[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
 
   @@map("lessons")
 }
@@ -100,8 +101,8 @@ model LessonMLModel {
   lessonId               String @map("lessonId")
   machineLearningModelId String @map("machine_learning_model_id")
 
-  lesson               Lesson               @relation(fields: [lessonId], references: [id])
-  machineLearningModel MachineLearningModel @relation(fields: [machineLearningModelId], references: [id])
+  lesson               Lesson               @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  machineLearningModel MachineLearningModel @relation(fields: [machineLearningModelId], references: [id], onDelete: Cascade)
 
   @@id([lessonId, machineLearningModelId])
   @@map("lesson_machine_learning_model")
@@ -136,7 +137,7 @@ model Content {
   videoUrl    String @map("video_url")
   lessonId    String @map("lesson_id")
 
-  lesson Lesson  @relation(fields: [lessonId], references: [id])
+  lesson Lesson  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   module Module?
 
   createdAt DateTime @default(now()) @map("created_at")
@@ -155,9 +156,12 @@ model Question {
   name        String
   description String
   videoUrl    String?      @map("video_url")
+  lessonId    String       @map("lesson_id")
   type        QuestionType
 
-  Module Module?
+  answers Answer[]
+  lesson  Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  module  Module?
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
@@ -170,6 +174,9 @@ model Answer {
   description String?
   videoUrl    String? @map("video_url")
   isCorrect   Boolean @map("is_correct")
+  questionId  String  @map("question_id")
+
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
