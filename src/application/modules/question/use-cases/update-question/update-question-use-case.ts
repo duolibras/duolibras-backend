@@ -9,7 +9,7 @@ interface IInput {
   questionId: string;
   name?: string;
   description?: string;
-  videoUrl?: string;
+  videoKey?: string;
   machineLearningModelId?: string;
 }
 
@@ -23,7 +23,7 @@ export class UpdateQuestionUseCase implements IUseCase<IInput, IOutput> {
     private readonly lessonRepo: LessonRepository,
   ) {}
 
-  async execute({ questionId, name, description, videoUrl, machineLearningModelId }: IInput): Promise<IOutput> {
+  async execute({ questionId, name, description, videoKey, machineLearningModelId }: IInput): Promise<IOutput> {
     const questionFound = await this.questionRepo.getQuestion(questionId);
 
     if (!questionFound) {
@@ -34,7 +34,7 @@ export class UpdateQuestionUseCase implements IUseCase<IInput, IOutput> {
       id: questionFound.id,
       name: name ?? questionFound.name,
       description: description ?? questionFound.description,
-      videoUrl: videoUrl ?? questionFound.videoUrl,
+      videoKey: videoKey ?? questionFound.videoKey,
       lessonId: questionFound.lessonId,
       createdAt: questionFound.createdAt,
       type: questionFound.type,

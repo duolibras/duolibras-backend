@@ -9,7 +9,7 @@ const schema = z.object({
   name: z.string(),
   description: z.string(),
   lessonId: z.string().ulid(),
-  videoUrl: z.string().url(),
+  videoKey: z.string().url(),
 });
 
 export class CreateContentController implements IController {
@@ -18,9 +18,9 @@ export class CreateContentController implements IController {
   ) {}
 
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
-    const { name, description, lessonId, videoUrl } = schema.parse(request.body);
+    const { name, description, lessonId, videoKey } = schema.parse(request.body);
 
-    const { content } = await this.useCase.execute({ name, description, lessonId, videoUrl });
+    const { content } = await this.useCase.execute({ name, description, lessonId, videoKey });
 
     return new HttpResponse({
       body: {

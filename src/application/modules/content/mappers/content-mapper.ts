@@ -7,7 +7,7 @@ export class ContentMapper {
       id: content.id,
       name: content.name,
       description: content.description,
-      videoUrl: content.videoUrl,
+      videoKey: content.videoKey,
       createdAt: content.createdAt,
       updatedAt: content.updatedAt,
       lesson: {
@@ -38,7 +38,7 @@ export class ContentMapper {
       name: data.name,
       description: data.description,
       lessonId: data.lessonId,
-      videoUrl: data.videoUrl,
+      videoKey: data.videoKey,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     });
@@ -49,7 +49,7 @@ export class ContentMapper {
       id: data.id,
       name: data.name,
       description: data.description,
-      videoUrl: data.videoUrl,
+      videoKey: data.videoKey,
       lessonId: data.lessonId,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
@@ -61,7 +61,7 @@ export class ContentMapper {
       id: data.id,
       name: data.name,
       description: data.description,
-      videoUrl: data.videoUrl,
+      videoKey: data.videoKey,
       lessonId: data.lessonId,
     };
   }

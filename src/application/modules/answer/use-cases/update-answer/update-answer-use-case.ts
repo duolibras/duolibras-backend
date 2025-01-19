@@ -8,7 +8,7 @@ interface IInput {
   answerId: string;
   isCorrect?: boolean;
   description?: string;
-  videoUrl?: string;
+  videoKey?: string;
 }
 
 interface IOutput {
@@ -20,7 +20,7 @@ export class UpdateAnswerUseCase implements IUseCase<IInput, IOutput> {
     private readonly answerRepo: AnswerRepository
   ) {}
 
-  async execute({ answerId, isCorrect, description, videoUrl }: IInput): Promise<IOutput> {
+  async execute({ answerId, isCorrect, description, videoKey }: IInput): Promise<IOutput> {
     const answerFound = await this.answerRepo.getAnswer(answerId);
 
     if (!answerFound) {
@@ -30,7 +30,7 @@ export class UpdateAnswerUseCase implements IUseCase<IInput, IOutput> {
     const updatedAnswer = new Answer({
       id: answerFound.id,
       description: description ?? answerFound.description,
-      videoUrl: videoUrl ?? answerFound.videoUrl,
+      videoKey: videoKey ?? answerFound.videoKey,
       questionId: answerFound.questionId,
       createdAt: answerFound.createdAt,
       isCorrect: isCorrect ?? answerFound.isCorrect,

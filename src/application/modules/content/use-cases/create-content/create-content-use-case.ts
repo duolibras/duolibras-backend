@@ -9,7 +9,7 @@ import { ContentRepository } from '../../repositories/content-repository';
 interface IInput {
   name: string;
   description: string;
-  videoUrl: string;
+  videoKey: string;
   lessonId: string;
 }
 
@@ -23,7 +23,7 @@ export class CreateContentUseCase implements IUseCase<IInput, IOutput> {
     private readonly lessonRepo: LessonRepository,
   ) {}
 
-  async execute({ name, lessonId, description, videoUrl }: IInput): Promise<IOutput> {
+  async execute({ name, lessonId, description, videoKey }: IInput): Promise<IOutput> {
     const lesson = await this.lessonRepo.getLesson(lessonId);
 
     if (!lesson) {
@@ -34,7 +34,7 @@ export class CreateContentUseCase implements IUseCase<IInput, IOutput> {
       name,
       description,
       lessonId,
-      videoUrl,
+      videoKey,
     });
 
     try {

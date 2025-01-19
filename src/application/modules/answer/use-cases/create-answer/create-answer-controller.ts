@@ -7,7 +7,7 @@ import { CreateAnswerUseCase } from './create-answer-use-case';
 
 const schema = z.object({
   description: z.string().optional(),
-  videoUrl: z.string().optional(),
+  videoKey: z.string().optional(),
   isCorrect: z.boolean(),
   questionId: z.string().ulid(),
 });
@@ -18,9 +18,9 @@ export class CreateAnswerController implements IController {
   ) {}
 
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
-    const { description, questionId, videoUrl, isCorrect } = schema.parse(request.body);
+    const { description, questionId, videoKey, isCorrect } = schema.parse(request.body);
 
-    const { answer } = await this.useCase.execute({ description, questionId, videoUrl, isCorrect });
+    const { answer } = await this.useCase.execute({ description, questionId, videoKey, isCorrect });
 
     return new HttpResponse({
       body: {

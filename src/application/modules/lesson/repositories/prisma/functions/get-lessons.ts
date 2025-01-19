@@ -9,7 +9,7 @@ export async function prismaGetLessons(chapterId: string): Promise<Lesson[]> {
     },
     orderBy: {
       id: 'asc',
-    }
+    },
   });
 
   return lessons.map(LessonMapper.toDomain);

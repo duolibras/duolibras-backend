@@ -10,7 +10,7 @@ export enum QuestionType {
 export interface QuestionProps extends IEntityProps {
   name: string;
   description: string;
-  videoUrl?: string | null;
+  videoKey?: string | null;
   lessonId: string;
   module?: Module | null;
   type: QuestionType;
@@ -39,8 +39,8 @@ export class Question extends Entity {
     return this.props.description;
   }
 
-  public get videoUrl(): string | null {
-    return this.props.videoUrl ?? null;
+  public get videoKey(): string | null {
+    return this.props.videoKey ?? null;
   }
 
   public get lessonId(): string {

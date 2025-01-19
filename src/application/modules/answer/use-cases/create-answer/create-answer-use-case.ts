@@ -10,7 +10,7 @@ interface IInput {
   questionId: string;
   isCorrect: boolean;
   description?: string;
-  videoUrl?: string;
+  videoKey?: string;
 }
 
 interface IOutput {
@@ -23,7 +23,7 @@ export class CreateAnswerUseCase implements IUseCase<IInput, IOutput> {
     private readonly questionRepo: QuestionRepository,
   ) {}
 
-  async execute({ isCorrect, questionId, description, videoUrl }: IInput): Promise<IOutput> {
+  async execute({ isCorrect, questionId, description, videoKey }: IInput): Promise<IOutput> {
     const question = await this.questionRepo.getQuestion(questionId);
 
     if (!question) {
@@ -33,7 +33,7 @@ export class CreateAnswerUseCase implements IUseCase<IInput, IOutput> {
     const answer = new Answer({
       description,
       questionId,
-      videoUrl,
+      videoKey,
       isCorrect,
     });
 

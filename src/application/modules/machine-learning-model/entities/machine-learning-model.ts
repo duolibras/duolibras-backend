@@ -1,12 +1,17 @@
 import { Entity, IEntityProps } from '@/application/shared/entities/entity';
+import { makeStorageProvider } from '@/application/shared/providers/storage-provider/make-storage-provider';
 
 export interface MachineLearningModelProps extends IEntityProps {
   name: string;
   description: string;
-  weightsUrl: string;
-  modelUrl: string;
-  metadataUrl: string;
+  weightsKey: string;
+  modelKey: string;
+  metadataKey: string;
+  weightsUrl?: string | null;
+  modelUrl?: string | null;
+  metadataUrl?: string | null;
 }
+
 
 export class MachineLearningModel extends Entity {
   readonly props: MachineLearningModelProps;
@@ -24,16 +29,52 @@ export class MachineLearningModel extends Entity {
     return this.props.description;
   }
 
-  public get weightsUrl(): string {
-    return this.props.weightsUrl;
+  public get weightsKey(): string {
+    return this.props.weightsKey;
   }
 
-  public get modelUrl(): string {
-    return this.props.modelUrl;
+  public get modelKey(): string {
+    return this.props.modelKey;
   }
 
-  public get metadataUrl(): string {
-    return this.props.metadataUrl;
+  public get metadataKey(): string {
+    return this.props.metadataKey;
+  }
+
+  public get weightsUrl(): string | null {
+    return this.props.weightsUrl ?? null;
+  }
+
+  public get modelUrl(): string | null {
+    return this.props.modelUrl ?? null;
+  }
+
+  public get metadataUrl(): string | null {
+    return this.props.metadataUrl ?? null;
+  }
+
+  private set weightsUrl(value: string | null) {
+    this.props.weightsUrl = value;
+  }
+
+  private set modelUrl(value: string | null) {
+    this.props.modelUrl = value;
+  }
+
+  private set metadataUrl(value: string | null) {
+    this.props.metadataUrl = value;
+  }
+
+  async generatePresignedUrls(): Promise<void> {
+    this.props.weightsUrl = await this.generatePresignedUrl(this.props.weightsKey);
+    this.props.modelUrl = await this.generatePresignedUrl(this.props.modelKey);
+    this.props.metadataUrl = await this.generatePresignedUrl(this.props.metadataKey);
+  }
+
+  private async generatePresignedUrl(key: string): Promise<string | null> {
+    const storageProvider = makeStorageProvider();
+
+    return storageProvider.generatePresignedUrl(key, 3600);
   }
 }
 

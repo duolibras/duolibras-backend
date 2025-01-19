@@ -11,13 +11,13 @@ import { QuestionRepository } from '../../repositories/question-repository';
 interface IInput {
   name: string;
   description: string;
-  videoUrl?: string;
+  videoKey?: string;
   lessonId: string;
   type: QuestionType;
   machineLearningModelId?: string;
   answers?: {
     description?: string;
-    videoUrl?: string;
+    videoKey?: string;
     isCorrect: boolean;
   }[];
 }
@@ -33,7 +33,7 @@ export class CreateQuestionUseCase implements IUseCase<IInput, IOutput> {
     private readonly machineLearningModelRepo: MachineLearningModelRepository,
   ) {}
 
-  async execute({ name, lessonId, description, videoUrl, type, answers, machineLearningModelId }: IInput): Promise<IOutput> {
+  async execute({ name, lessonId, description, videoKey, type, answers, machineLearningModelId }: IInput): Promise<IOutput> {
     const lesson = await this.lessonRepo.getLesson(lessonId);
 
     if (!lesson) {
@@ -54,14 +54,14 @@ export class CreateQuestionUseCase implements IUseCase<IInput, IOutput> {
       name,
       description,
       lessonId,
-      videoUrl,
+      videoKey,
       type,
       machineLearningModelId,
     });
 
-    question.answers = answers?.map(({ description, isCorrect, videoUrl }) => new Answer({
+    question.answers = answers?.map(({ description, isCorrect, videoKey }) => new Answer({
       description,
-      videoUrl,
+      videoKey,
       isCorrect,
       questionId: question.id,
     })) ?? [];

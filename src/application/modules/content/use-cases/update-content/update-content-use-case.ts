@@ -8,7 +8,7 @@ interface IInput {
   contentId: string;
   name?: string;
   description?: string;
-  videoUrl?: string;
+  videoKey?: string;
 }
 
 interface IOutput {
@@ -20,7 +20,7 @@ export class UpdateContentUseCase implements IUseCase<IInput, IOutput> {
     private readonly contentRepo: ContentRepository
   ) {}
 
-  async execute({ contentId, name, description, videoUrl }: IInput): Promise<IOutput> {
+  async execute({ contentId, name, description, videoKey }: IInput): Promise<IOutput> {
     const contentFound = await this.contentRepo.getContent(contentId);
 
     if (!contentFound) {
@@ -31,7 +31,7 @@ export class UpdateContentUseCase implements IUseCase<IInput, IOutput> {
       id: contentFound.id,
       name: name ?? contentFound.name,
       description: description ?? contentFound.description,
-      videoUrl: videoUrl ?? contentFound.videoUrl,
+      videoKey: videoKey ?? contentFound.videoKey,
       lessonId: contentFound.lessonId,
       createdAt: contentFound.createdAt,
     });

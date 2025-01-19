@@ -11,10 +11,10 @@ const schema = z.object({
   description: z.string(),
   lessonId: z.string().ulid(),
   type: z.nativeEnum(QuestionType),
-  videoUrl: z.string().url().optional(),
+  videoKey: z.string().url().optional(),
   answers: z.array(z.object({
     description: z.string().optional(),
-    videoUrl: z.string().optional(),
+    videoKey: z.string().optional(),
     isCorrect: z.boolean(),
   })).optional(),
 });
@@ -25,9 +25,9 @@ export class CreateQuestionController implements IController {
   ) {}
 
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
-    const { name, description, lessonId, videoUrl, type, answers } = schema.parse(request.body);
+    const { name, description, lessonId, videoKey, type, answers } = schema.parse(request.body);
 
-    const { question } = await this.useCase.execute({ name, description, lessonId, videoUrl, answers, type });
+    const { question } = await this.useCase.execute({ name, description, lessonId, videoKey, answers, type });
 
     return new HttpResponse({
       body: {

@@ -67,9 +67,9 @@ model MachineLearningModel {
   id          String @id
   name        String
   description String
-  weightsUrl  String @map("weights_url")
-  modelUrl    String @map("model_url")
-  metadataUrl String @map("metadata_url")
+  weightsKey  String @map("weights_key")
+  modelKey    String @map("model_key")
+  metadataKey String @map("metadata_key")
 
   lessons   LessonMachineLearningModel[]
   questions Question[]
@@ -135,7 +135,7 @@ model Content {
   id          String @id
   name        String
   description String
-  videoUrl    String @map("video_url")
+  videoKey    String @map("video_key")
   lessonId    String @map("lesson_id")
 
   lesson Lesson  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
@@ -156,7 +156,7 @@ model Question {
   id                     String       @id
   name                   String
   description            String
-  videoUrl               String?      @map("video_url")
+  videoKey               String?      @map("video_key")
   lessonId               String       @map("lesson_id")
   machineLearningModelId String?      @map("machine_learning_model_id")
   type                   QuestionType
@@ -175,7 +175,7 @@ model Question {
 model Answer {
   id          String  @id
   description String?
-  videoUrl    String? @map("video_url")
+  videoKey    String? @map("video_key")
   isCorrect   Boolean @map("is_correct")
   questionId  String  @map("question_id")
 

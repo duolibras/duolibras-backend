@@ -1,6 +1,12 @@
-import { Prisma, Lesson as RawLesson } from '@prisma/client';
+import { Prisma, Lesson as RawLesson, MachineLearningModel as RawMachineLearningModel } from '@prisma/client';
+import { MachineLearningModelMapper } from '../../machine-learning-model/mappers/machine-learning-model-mapper';
 import { Lesson } from '../entities/lesson';
 
+interface RawLessonWithMachineLearningModels extends RawLesson {
+  machineLearningModels?: {
+    machineLearningModel: RawMachineLearningModel;
+  }[]
+}
 
 export class LessonMapper {
   static toPersistence(lesson: Lesson): Prisma.LessonCreateInput {
@@ -18,7 +24,7 @@ export class LessonMapper {
     };
   }
 
-  static toDomain(data: RawLesson): Lesson {
+  static toDomain(data: RawLessonWithMachineLearningModels): Lesson {
     return new Lesson({
       id: data.id,
       name: data.name,
@@ -26,6 +32,10 @@ export class LessonMapper {
       modulesCount: data.modulesCount,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
+      machineLearningModels: data.machineLearningModels?.map(
+        ({ machineLearningModel }) =>
+          MachineLearningModelMapper.toDomain(machineLearningModel)
+      ) ?? [],
     });
   }
 
@@ -45,6 +55,10 @@ export class LessonMapper {
       id: data.id,
       name: data.name,
       modulesCount: data.modulesCount,
+      chapterId: data.chapterId,
+      machineLearningModels: data.machineLearningModels.map(
+        MachineLearningModelMapper.toSummaryHttp
+      ),
     };
   }
 }

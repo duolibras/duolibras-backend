@@ -9,6 +9,8 @@ export function routeAdapter(controller: IController) {
         params: request.params,
         account: request.metadata?.account,
         headers: request.headers as Record<string, string>,
+        file: request.file,
+        files: request.files,
       });
 
       response.status(statusCode).json(body);

@@ -8,7 +8,6 @@ export interface IOptions {}
 export class AuthorizationMiddleware implements IMiddleware {
   constructor(
     private readonly requiredRoles: Roles[],
-    private readonly options?: IOptions,
   ) {}
 
   async handle({ account }: IHttpRequest): Promise<IHttpResponse | IData> {

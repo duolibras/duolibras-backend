@@ -1,9 +1,11 @@
 import { Entity, IEntityProps } from '@/application/shared/entities/entity';
+import { MachineLearningModel } from '../../machine-learning-model/entities/machine-learning-model';
 
 export interface LessonProps extends IEntityProps {
   name: string;
   modulesCount: number;
   chapterId: string;
+  machineLearningModels: MachineLearningModel[];
 }
 
 export class Lesson extends Entity {
@@ -25,5 +27,9 @@ export class Lesson extends Entity {
 
   public get chapterId(): string {
     return this.props.chapterId;
+  }
+
+  public get machineLearningModels(): MachineLearningModel[] {
+    return this.props.machineLearningModels;
   }
 }

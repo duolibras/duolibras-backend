@@ -9,7 +9,7 @@ const schema = z.object({
   answerId: z.string().ulid(),
   isCorrect: z.boolean().optional(),
   description: z.string().optional(),
-  videoUrl: z.string().url().optional(),
+  videoKey: z.string().url().optional(),
 });
 
 export class UpdateAnswerController implements IController {
@@ -18,13 +18,13 @@ export class UpdateAnswerController implements IController {
   ) {}
 
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
-    const { answerId, isCorrect, videoUrl, description } = schema.parse({ ...request.params, ...request.body });
+    const { answerId, isCorrect, videoKey, description } = schema.parse({ ...request.params, ...request.body });
 
     const { answer } = await this.useCase.execute({
       answerId,
       isCorrect,
       description,
-      videoUrl,
+      videoKey,
     });
 
     return new HttpResponse({

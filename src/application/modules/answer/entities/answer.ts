@@ -2,7 +2,7 @@ import { Entity, IEntityProps } from '@/application/shared/entities/entity';
 
 export interface AnswerProps extends IEntityProps {
   description?: string | null;
-  videoUrl?: string | null;
+  videoKey?: string | null;
   questionId: string;
   isCorrect: boolean;
 }
@@ -19,8 +19,8 @@ export class Answer extends Entity {
     return this.props.description ?? null;
   }
 
-  public get videoUrl(): string | null {
-    return this.props.videoUrl ?? null;
+  public get videoKey(): string | null {
+    return this.props.videoKey ?? null;
   }
 
   public get questionId(): string {

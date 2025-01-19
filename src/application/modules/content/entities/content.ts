@@ -4,7 +4,7 @@ import { Module, ModuleType } from '../../module/entities/module';
 export interface ContentProps extends IEntityProps {
   name: string;
   description: string;
-  videoUrl: string;
+  videoKey: string;
   lessonId: string;
   module?: Module | null;
 }
@@ -30,8 +30,8 @@ export class Content extends Entity {
     return this.props.description;
   }
 
-  public get videoUrl(): string {
-    return this.props.videoUrl;
+  public get videoKey(): string {
+    return this.props.videoKey;
   }
 
   public get lessonId(): string {

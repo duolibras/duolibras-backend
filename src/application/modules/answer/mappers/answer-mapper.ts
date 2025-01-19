@@ -7,7 +7,7 @@ export class AnswerMapper {
       id: answer.id,
       isCorrect: answer.isCorrect,
       description: answer.description,
-      videoUrl: answer.videoUrl,
+      videoKey: answer.videoKey,
       question: {
         connect: {
           id: answer.questionId,
@@ -23,7 +23,7 @@ export class AnswerMapper {
       id: answer.id,
       isCorrect: answer.isCorrect,
       description: answer.description,
-      videoUrl: answer.videoUrl,
+      videoKey: answer.videoKey,
       createdAt: answer.createdAt,
       updatedAt: answer.updatedAt,
     };
@@ -33,7 +33,7 @@ export class AnswerMapper {
     return new Answer({
       id: data.id,
       description: data.description,
-      videoUrl: data.videoUrl,
+      videoKey: data.videoKey,
       isCorrect: data.isCorrect,
       questionId: data.questionId,
       createdAt: data.createdAt,
@@ -45,7 +45,7 @@ export class AnswerMapper {
     return {
       id: data.id,
       description: data.description,
-      videoUrl: data.videoUrl,
+      videoKey: data.videoKey,
       isCorrect: data.isCorrect,
       questionId: data.questionId,
       createdAt: data.createdAt,
@@ -57,7 +57,7 @@ export class AnswerMapper {
     return {
       id: data.id,
       description: data.description,
-      videoUrl: data.videoUrl,
+      videoKey: data.videoKey,
       isCorrect: data.isCorrect,
       questionId: data.questionId,
     };

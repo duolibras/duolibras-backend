@@ -16,6 +16,8 @@ export class GetMachineLearningModelsUseCase implements IUseCase<IInput, IOutput
   async execute(): Promise<IOutput> {
     const machineLearningModels = await this.machinelearningmodelRepo.getMachineLearningModels();
 
+    await Promise.all(machineLearningModels.map(mlmModel => mlmModel.generatePresignedUrls()));
+
     return {
       machineLearningModels
     };
