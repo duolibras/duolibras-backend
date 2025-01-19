@@ -24,6 +24,10 @@ export class DeleteQuestionUseCase implements IUseCase<IInput, IOutput> {
     }
 
     try {
+      if (question.machineLearningModelId) {
+        await this.lessonRepo.disconnectMachineLearningModel(question.lessonId, question.machineLearningModelId);
+      }
+
       await this.questionRepo.deleteQuestion(questionId);
 
       await this.lessonRepo.changeModulesCount(question.lessonId, 'DECREMENT');

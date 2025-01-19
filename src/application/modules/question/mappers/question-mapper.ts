@@ -13,6 +13,11 @@ export class QuestionMapper {
       type: question.type,
       createdAt: question.createdAt,
       updatedAt: question.updatedAt,
+      machineLearningModel: question.machineLearningModelId ? {
+        connect: {
+          id: question.machineLearningModelId,
+        },
+      } : undefined,
       answers: {
         createMany: {
           data: question.answers.map(AnswerMapper.toQuestionPersistence)
@@ -51,6 +56,7 @@ export class QuestionMapper {
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
       answers: data.answers.map(AnswerMapper.toDomain),
+      machineLearningModelId: data.machineLearningModelId,
     });
   }
 
@@ -63,6 +69,7 @@ export class QuestionMapper {
       type: data.type,
       lessonId: data.lessonId,
       answers: data.answers.map(AnswerMapper.toHttp),
+      machineLearningModelId: data.machineLearningModelId,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     };
@@ -77,6 +84,7 @@ export class QuestionMapper {
       type: data.type,
       lessonId: data.lessonId,
       answers: data.answers.map(AnswerMapper.toSummaryHttp),
+      machineLearningModelId: data.machineLearningModelId,
     };
   }
 }

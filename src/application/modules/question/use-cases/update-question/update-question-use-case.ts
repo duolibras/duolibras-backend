@@ -1,3 +1,4 @@
+import { LessonRepository } from '@/application/modules/lesson/repositories/lesson-repository';
 import { InternalServerHTTPError } from '@/application/shared/http/errors/internal-server-http-error';
 import { NotFoundHTTPError } from '@/application/shared/http/errors/not-found-http-error';
 import { IUseCase } from '@/application/shared/http/interfaces/use-case';
@@ -9,6 +10,7 @@ interface IInput {
   name?: string;
   description?: string;
   videoUrl?: string;
+  machineLearningModelId?: string;
 }
 
 interface IOutput {
@@ -17,10 +19,11 @@ interface IOutput {
 
 export class UpdateQuestionUseCase implements IUseCase<IInput, IOutput> {
   constructor(
-    private readonly questionRepo: QuestionRepository
+    private readonly questionRepo: QuestionRepository,
+    private readonly lessonRepo: LessonRepository,
   ) {}
 
-  async execute({ questionId, name, description, videoUrl }: IInput): Promise<IOutput> {
+  async execute({ questionId, name, description, videoUrl, machineLearningModelId }: IInput): Promise<IOutput> {
     const questionFound = await this.questionRepo.getQuestion(questionId);
 
     if (!questionFound) {
@@ -35,9 +38,18 @@ export class UpdateQuestionUseCase implements IUseCase<IInput, IOutput> {
       lessonId: questionFound.lessonId,
       createdAt: questionFound.createdAt,
       type: questionFound.type,
+      machineLearningModelId: machineLearningModelId ?? questionFound.machineLearningModelId,
     });
 
     try {
+      if (machineLearningModelId) {
+        await this.lessonRepo.connectMachineLearningModel(questionFound.id, machineLearningModelId);
+
+        if (questionFound.machineLearningModelId) {
+          await this.lessonRepo.disconnectMachineLearningModel(questionFound.id, questionFound.machineLearningModelId);
+        }
+      }
+
       await this.questionRepo.updateQuestion(updatedQuestion);
 
       return {

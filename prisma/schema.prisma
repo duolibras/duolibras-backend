@@ -67,11 +67,12 @@ model MachineLearningModel {
   id          String @id
   name        String
   description String
-  wheightsUrl String @map("wheights_url")
+  weightsUrl  String @map("weights_url")
   modelUrl    String @map("model_url")
   metadataUrl String @map("metadata_url")
 
-  machineLearningModels LessonMLModel[]
+  lessons   LessonMachineLearningModel[]
+  questions Question[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
@@ -88,8 +89,8 @@ model Lesson {
   modules               Module[]
   contents              Content[]
   questions             Question[]
-  machineLearningModels LessonMLModel[]
-  chapter               Chapter         @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  machineLearningModels LessonMachineLearningModel[]
+  chapter               Chapter                      @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
@@ -97,8 +98,8 @@ model Lesson {
   @@map("lessons")
 }
 
-model LessonMLModel {
-  lessonId               String @map("lessonId")
+model LessonMachineLearningModel {
+  lessonId               String @map("lesson_id")
   machineLearningModelId String @map("machine_learning_model_id")
 
   lesson               Lesson               @relation(fields: [lessonId], references: [id], onDelete: Cascade)
@@ -152,16 +153,18 @@ enum QuestionType {
 }
 
 model Question {
-  id          String       @id
-  name        String
-  description String
-  videoUrl    String?      @map("video_url")
-  lessonId    String       @map("lesson_id")
-  type        QuestionType
+  id                     String       @id
+  name                   String
+  description            String
+  videoUrl               String?      @map("video_url")
+  lessonId               String       @map("lesson_id")
+  machineLearningModelId String?      @map("machine_learning_model_id")
+  type                   QuestionType
 
-  answers Answer[]
-  lesson  Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  module  Module?
+  answers              Answer[]
+  lesson               Lesson                @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  module               Module?
+  machineLearningModel MachineLearningModel? @relation(fields: [machineLearningModelId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")

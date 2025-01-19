@@ -8,4 +8,6 @@ export interface LessonRepository {
   getLessons(chapterId: string): Promise<Lesson[]>
   getLesson(lessonId: string): Promise<Lesson | null>
   changeModulesCount(lessonId: string, operation: CountOperation): Promise<void>;
+  connectMachineLearningModel(lessonId: string, machineLearningModelId: string): Promise<void>;
+  disconnectMachineLearningModel(lessonId: string, machineLearningModelId: string): Promise<void>;
 }
