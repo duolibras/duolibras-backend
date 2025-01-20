@@ -1,0 +1,41 @@
+model Lesson {
+  id           String @id
+  name         String
+  modulesCount Int    @map("modules_count")
+  chapterId    String @map("chapter_id")
+
+  modules               Module[]
+  contents              Content[]
+  questions             Question[]
+  machineLearningModels LessonMachineLearningModel[]
+  chapter               Chapter                      @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  createdAt                DateTime                  @default(now()) @map("created_at")
+  updatedAt                DateTime                  @default(now()) @updatedAt() @map("updated_at")
+  lessonsUserJourneyStatus LessonUserJourneyStatus[]
+
+  @@map("lessons")
+}
+
+model LessonMachineLearningModel {
+  lessonId               String @map("lesson_id")
+  machineLearningModelId String @map("machine_learning_model_id")
+
+  lesson               Lesson               @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  machineLearningModel MachineLearningModel @relation(fields: [machineLearningModelId], references: [id], onDelete: Cascade)
+
+  @@id([lessonId, machineLearningModelId])
+  @@map("lesson_machine_learning_model")
+}
+
+model LessonUserJourneyStatus {
+  accountId String            @map("account_id")
+  lessonId  String            @map("lesson_id")
+  status    UserJourneyStatus @default(UNAVAILABLE)
+
+  lesson         Lesson      @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  accountJourney UserJourney @relation(fields: [accountId], references: [accountId])
+
+  @@id([accountId, lessonId])
+  @@map("lesson_user_journey_statuses")
+}

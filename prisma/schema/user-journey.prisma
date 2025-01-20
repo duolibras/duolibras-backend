@@ -1,0 +1,17 @@
+enum UserJourneyStatus {
+  ACCOMPLISHED
+  AVAILABLE
+  UNAVAILABLE
+}
+
+model UserJourney {
+  accountId String @id @unique @map("account_id")
+
+  account Account @relation(fields: [accountId], references: [id])
+
+  unitsUserJourneyStatuses  UnitUserJourneyStatus[]
+  chaptersUserJourneyStatus ChapterUserJourneyStatus[]
+  lessonsUserJourneyStatus  LessonUserJourneyStatus[]
+
+  @@map("users_journey")
+}

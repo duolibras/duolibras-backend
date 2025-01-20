@@ -1,0 +1,28 @@
+model Chapter {
+  id           String @id
+  name         String
+  description  String
+  lessonsCount Int    @map("lessons_count")
+  unitId       String @map("unit_id")
+
+  unit    Unit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  lessons Lesson[]
+
+  createdAt                 DateTime                   @default(now()) @map("created_at")
+  updatedAt                 DateTime                   @default(now()) @updatedAt() @map("updated_at")
+  chaptersUserJourneyStatus ChapterUserJourneyStatus[]
+
+  @@map("chapters")
+}
+
+model ChapterUserJourneyStatus {
+  accountId String            @map("account_id")
+  chapterId String            @map("chapter_id")
+  status    UserJourneyStatus @default(UNAVAILABLE)
+
+  chapter        Chapter     @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  accountJourney UserJourney @relation(fields: [accountId], references: [accountId])
+
+  @@id([accountId, chapterId])
+  @@map("chapter_user_journey_statuses")
+}

@@ -1,0 +1,28 @@
+model Account {
+  id       String @id
+  name     String
+  email    String @unique
+  password String
+  roleCode String @map("role_code")
+
+  role        Role         @relation(fields: [roleCode], references: [code], onDelete: Restrict)
+  UserJourney UserJourney?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("accounts")
+}
+
+model Role {
+  id   String @id
+  code String @unique
+
+  accounts Account[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@index([code])
+  @@map("roles")
+}

@@ -1,0 +1,25 @@
+model Unit {
+  id            String @id
+  name          String
+  chaptersCount Int    @map("chapters_count")
+
+  chapters            Chapter[]
+  usersJourneysStatus UnitUserJourneyStatus[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("units")
+}
+
+model UnitUserJourneyStatus {
+  accountId String            @map("account_id")
+  unitId    String            @map("unit_id")
+  status    UserJourneyStatus @default(UNAVAILABLE)
+
+  unit           Unit        @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  accountJourney UserJourney @relation(fields: [accountId], references: [accountId], onDelete: Cascade)
+
+  @@id([accountId, unitId])
+  @@map("unit_user_journey_statuses")
+}
