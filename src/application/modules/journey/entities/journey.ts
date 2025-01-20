@@ -23,7 +23,6 @@ export class Journey {
   }
 
   private getStatus(index: number, lastStatus?: UserJourneyStatus | null): UserJourneyStatus {
-    console.log('entrando aqui?');
     return (lastStatus === UserJourneyStatus.ACCOMPLISHED || index === 0)
       ? UserJourneyStatus.AVAILABLE
       : UserJourneyStatus.UNAVAILABLE;
@@ -31,7 +30,6 @@ export class Journey {
 
   private generateStatuses() {
     this.units.forEach((unit, unitIndex) => {
-      console.log(unit.status);
       unit.status = unit.status
         ?? this.getStatus(unitIndex, this.units[Math.max(0, unitIndex - 1)].status);
 
