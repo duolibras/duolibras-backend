@@ -23,6 +23,8 @@ export class GetQuestionUseCase implements IUseCase<IInput, IOutput> {
       throw new NotFoundHTTPError('Questão não encontrado');
     }
 
+    await question.generatePresignedUrl();
+
     return {
       question,
     };

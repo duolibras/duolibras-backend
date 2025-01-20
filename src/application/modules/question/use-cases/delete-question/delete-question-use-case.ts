@@ -2,6 +2,7 @@ import { LessonRepository } from '@/application/modules/lesson/repositories/less
 import { InternalServerHTTPError } from '@/application/shared/http/errors/internal-server-http-error';
 import { NotFoundHTTPError } from '@/application/shared/http/errors/not-found-http-error';
 import { IUseCase } from '@/application/shared/http/interfaces/use-case';
+import { StorageProvider } from '@/application/shared/providers/storage-provider/storage-provider';
 import { QuestionRepository } from '../../repositories/question-repository';
 
 interface IInput {
@@ -14,6 +15,7 @@ export class DeleteQuestionUseCase implements IUseCase<IInput, IOutput> {
   constructor(
     private readonly questionRepo: QuestionRepository,
     private readonly lessonRepo: LessonRepository,
+    private readonly storageProvider: StorageProvider,
   ) {}
 
   async execute({ questionId }: IInput): Promise<void> {
@@ -24,6 +26,8 @@ export class DeleteQuestionUseCase implements IUseCase<IInput, IOutput> {
     }
 
     try {
+      question.videoKey && await this.storageProvider.remove(question.videoKey);
+
       if (question.machineLearningModelId) {
         await this.lessonRepo.disconnectMachineLearningModel(question.lessonId, question.machineLearningModelId);
       }
@@ -32,7 +36,8 @@ export class DeleteQuestionUseCase implements IUseCase<IInput, IOutput> {
 
       await this.lessonRepo.changeModulesCount(question.lessonId, 'DECREMENT');
 
-    } catch {
+    } catch (err) {
+      console.log(err);
       throw new InternalServerHTTPError('Ocorreu um erro ao excluir questão');
     }
   }

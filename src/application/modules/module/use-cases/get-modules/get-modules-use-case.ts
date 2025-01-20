@@ -1,4 +1,5 @@
 import { LessonRepository } from '@/application/modules/lesson/repositories/lesson-repository';
+import { MachineLearningModel } from '@/application/modules/machine-learning-model/entities/machine-learning-model';
 import { NotFoundHTTPError } from '@/application/shared/http/errors/not-found-http-error';
 import { IUseCase } from '@/application/shared/http/interfaces/use-case';
 import { Module } from '../../entities/module';
@@ -10,6 +11,7 @@ interface IInput {
 
 interface IOutput {
   modules: Module[];
+  lessonMachineLearningModels: MachineLearningModel[];
 }
 
 export class GetModulesUseCase implements IUseCase<IInput, IOutput> {
@@ -25,10 +27,13 @@ export class GetModulesUseCase implements IUseCase<IInput, IOutput> {
       throw new NotFoundHTTPError('Aula não encontrada');
     }
 
-    const modules = await this.moduleRepo.getModules(lessonId);
+    const { lessonMachineLearningModels, modules } = await this.moduleRepo.getModules(lessonId);
+
+    await Promise.all(lessonMachineLearningModels.map((model) => model.generatePresignedUrls()));
 
     return {
-      modules
+      modules,
+      lessonMachineLearningModels,
     };
   }
 }

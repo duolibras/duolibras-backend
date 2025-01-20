@@ -11,13 +11,20 @@ const schema = z.object({
   description: z.string(),
   lessonId: z.string().ulid(),
   type: z.nativeEnum(QuestionType),
-  videoKey: z.string().url().optional(),
-  answers: z.array(z.object({
-    description: z.string().optional(),
-    videoKey: z.string().optional(),
-    isCorrect: z.boolean(),
-  })).optional(),
+  video: z.object({ path: z.string() }).transform(v => v.path).optional(),
+  machineLearningModelId: z.string().ulid().optional(),
+  answers: z.string().transform(v => JSON.parse(v)).refine(
+    v => {
+      console.log(v);
+      return answersSchema.parse(v);
+    },
+  ).optional(),
 });
+
+const answersSchema = z.array(z.object({
+  description: z.string(),
+  isCorrect: z.boolean(),
+}));
 
 export class CreateQuestionController implements IController {
   constructor(
@@ -25,9 +32,14 @@ export class CreateQuestionController implements IController {
   ) {}
 
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
-    const { name, description, lessonId, videoKey, type, answers } = schema.parse(request.body);
+    const video = request.file ? request.file : undefined;
 
-    const { question } = await this.useCase.execute({ name, description, lessonId, videoKey, answers, type });
+    const { ...parsedBody } = schema.parse({
+      ...request.body,
+      video,
+    });
+
+    const { question } = await this.useCase.execute(parsedBody);
 
     return new HttpResponse({
       body: {

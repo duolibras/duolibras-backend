@@ -5,19 +5,19 @@ import { MachineLearningModelRepository } from '@/application/modules/machine-le
 import { InternalServerHTTPError } from '@/application/shared/http/errors/internal-server-http-error';
 import { NotFoundHTTPError } from '@/application/shared/http/errors/not-found-http-error';
 import { IUseCase } from '@/application/shared/http/interfaces/use-case';
+import { StorageProvider } from '@/application/shared/providers/storage-provider/storage-provider';
 import { Question, QuestionType } from '../../entities/question';
 import { QuestionRepository } from '../../repositories/question-repository';
 
 interface IInput {
   name: string;
   description: string;
-  videoKey?: string;
+  video?: string;
   lessonId: string;
   type: QuestionType;
   machineLearningModelId?: string;
   answers?: {
-    description?: string;
-    videoKey?: string;
+    description: string;
     isCorrect: boolean;
   }[];
 }
@@ -31,9 +31,10 @@ export class CreateQuestionUseCase implements IUseCase<IInput, IOutput> {
     private readonly questionRepo: QuestionRepository,
     private readonly lessonRepo: LessonRepository,
     private readonly machineLearningModelRepo: MachineLearningModelRepository,
+    private readonly storageProvider: StorageProvider,
   ) {}
 
-  async execute({ name, lessonId, description, videoKey, type, answers, machineLearningModelId }: IInput): Promise<IOutput> {
+  async execute({ name, lessonId, description, video, type, answers, machineLearningModelId }: IInput): Promise<IOutput> {
     const lesson = await this.lessonRepo.getLesson(lessonId);
 
     if (!lesson) {
@@ -50,18 +51,29 @@ export class CreateQuestionUseCase implements IUseCase<IInput, IOutput> {
       await this.lessonRepo.connectMachineLearningModel(lesson.id, machineLearningModel.id);
     }
 
+    if (video) {
+      const videoKey = await this.storageProvider.save(video);
+
+      if (!videoKey) {
+        throw new InternalServerHTTPError('Erro ao salvar vídeo');
+      }
+
+      video = videoKey.fileKey;
+    }
+
     const question = new Question({
       name,
       description,
       lessonId,
-      videoKey,
+      videoKey: video,
       type,
       machineLearningModelId,
     });
 
-    question.answers = answers?.map(({ description, isCorrect, videoKey }) => new Answer({
+    await question.generatePresignedUrl();
+
+    question.answers = answers?.map(({ description, isCorrect }) => new Answer({
       description,
-      videoKey,
       isCorrect,
       questionId: question.id,
     })) ?? [];

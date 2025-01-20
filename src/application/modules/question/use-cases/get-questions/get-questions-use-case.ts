@@ -27,6 +27,8 @@ export class GetQuestionsUseCase implements IUseCase<IInput, IOutput> {
 
     const questions = await this.questionRepo.getQuestions(lessonId);
 
+    await Promise.all(questions.map((question) => question.generatePresignedUrl()));
+
     return {
       questions
     };

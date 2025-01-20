@@ -9,7 +9,8 @@ const schema = z.object({
   questionId: z.string().ulid(),
   name: z.string().optional(),
   description: z.string().optional(),
-  videoKey: z.string().url().optional(),
+  video: z.object({ path: z.string() }).transform(v => v.path).optional(),
+  machineLearningModelId: z.string().ulid().optional(),
 });
 
 export class UpdateQuestionController implements IController {
@@ -18,14 +19,12 @@ export class UpdateQuestionController implements IController {
   ) {}
 
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
-    const { questionId, name, videoKey, description } = schema.parse({ ...request.params, ...request.body });
+    const video = request.file ? request.file : undefined;
+    console.log(request.file);
 
-    const { question } = await this.useCase.execute({
-      questionId,
-      name,
-      description,
-      videoKey,
-    });
+    const parsedBody = schema.parse({ ...request.params, ...request.body, video });
+
+    const { question } = await this.useCase.execute(parsedBody);
 
     return new HttpResponse({
       body: { question: QuestionMapper.toHttp(question) }
