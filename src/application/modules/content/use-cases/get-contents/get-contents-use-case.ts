@@ -27,6 +27,8 @@ export class GetContentsUseCase implements IUseCase<IInput, IOutput> {
 
     const contents = await this.contentRepo.getContents(lessonId);
 
+    await Promise.all(contents.map(content => content.generatePresignedUrl()));
+
     return {
       contents
     };

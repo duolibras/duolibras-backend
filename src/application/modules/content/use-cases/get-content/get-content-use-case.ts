@@ -23,6 +23,8 @@ export class GetContentUseCase implements IUseCase<IInput, IOutput> {
       throw new NotFoundHTTPError('Conteúdo não encontrado');
     }
 
+    await content.generatePresignedUrl();
+
     return {
       content,
     };

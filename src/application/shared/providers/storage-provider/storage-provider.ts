@@ -6,5 +6,5 @@ export interface FileStorageResult {
 export interface StorageProvider {
   save(filePath: string): Promise<FileStorageResult>;
   remove(fileKey: string): Promise<void>;
-  generatePresignedUrl(fileKey: string, expiration: number): Promise<string | null>;
+  generatePresignedUrl(fileKey: string, expiration: number, video?: boolean): Promise<string | null>;
 }

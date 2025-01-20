@@ -9,7 +9,7 @@ const schema = z.object({
   contentId: z.string().ulid(),
   name: z.string().optional(),
   description: z.string().optional(),
-  videoKey: z.string().url().optional(),
+  video: z.object({ path: z.string() }).transform(v => v.path).optional(),
 });
 
 export class UpdateContentController implements IController {
@@ -18,14 +18,10 @@ export class UpdateContentController implements IController {
   ) {}
 
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
-    const { contentId, name, videoKey, description } = schema.parse({ ...request.params, ...request.body });
+    const video = request.file;
+    const parsedBody = schema.parse({ ...request.params, ...request.body, video });
 
-    const { content } = await this.useCase.execute({
-      contentId,
-      name,
-      description,
-      videoKey,
-    });
+    const { content } = await this.useCase.execute(parsedBody);
 
     return new HttpResponse({
       body: { content: ContentMapper.toHttp(content) }

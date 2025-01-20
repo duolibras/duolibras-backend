@@ -17,10 +17,11 @@ export class AWSS3StorageProvider implements StorageProvider {
     private readonly s3: S3,
   ) {}
 
-  async generatePresignedUrl(fileKey: string, expiration: number): Promise<string> {
+  async generatePresignedUrl(fileKey: string, expiration: number, video: boolean = false): Promise<string> {
     const command = new GetObjectCommand({
       Bucket: env.awsS3.bucketName,
       Key: fileKey,
+      ResponseContentType: video ? 'video/mp4' : 'application/octet-stream',
     });
 
     return getSignedUrl(this.s3, command, {

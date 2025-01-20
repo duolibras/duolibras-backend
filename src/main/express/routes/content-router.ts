@@ -8,14 +8,29 @@ import { makeGetContentController } from '@/application/modules/content/use-case
 import { makeGetContentsController } from '@/application/modules/content/use-cases/get-contents/factories/make-get-contents-controller';
 import { makeUpdateContentController } from '@/application/modules/content/use-cases/update-content/factories/make-update-content-controller';
 import { makeAuthorizationMiddleware } from '@/application/shared/http/middlewares/factories/make-authorization-middleware';
+import { makeFileUploadMiddleware } from '@/application/shared/http/middlewares/factories/make-file-upload-middleware';
+import { MulterFileType } from '@/application/shared/http/middlewares/file-upload/shared';
 import { Router } from 'express';
 import { middlewareAdapter } from '../adapters/middleware-adapter';
 import { routeAdapter } from '../adapters/route-adapter';
 
 export const contentsRouter = Router();
 
+
+const fileUploadMiddleware = makeFileUploadMiddleware<'video'>({
+  fieldName: 'video',
+  multerFileType: MulterFileType.SingleFile,
+  limitsByMimeTypes: [
+    {
+      mimeTypes: ['video/mp4', 'video/mov', 'video/quicktime'],
+    },
+  ],
+  fileName: (file) => file.originalname,
+});
+
 contentsRouter.post('/',
   middlewareAdapter(makeAuthorizationMiddleware([Roles.ADMIN])),
+  fileUploadMiddleware,
   routeAdapter(makeCreateContentController())
 );
 contentsRouter.get('/:contentId',
@@ -28,6 +43,7 @@ contentsRouter.get('/lesson/:lessonId',
 );
 contentsRouter.put('/:contentId',
   middlewareAdapter(makeAuthorizationMiddleware([Roles.ADMIN])),
+  fileUploadMiddleware,
   routeAdapter(makeUpdateContentController())
 );
 contentsRouter.delete('/:contentId',

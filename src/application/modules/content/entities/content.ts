@@ -1,10 +1,12 @@
 import { Entity, IEntityProps } from '@/application/shared/entities/entity';
+import { makeStorageProvider } from '@/application/shared/providers/storage-provider/make-storage-provider';
 import { Module, ModuleType } from '../../module/entities/module';
 
 export interface ContentProps extends IEntityProps {
   name: string;
   description: string;
   videoKey: string;
+  videoUrl?: string | null;
   lessonId: string;
   module?: Module | null;
 }
@@ -40,5 +42,19 @@ export class Content extends Entity {
 
   public get module(): Module {
     return this.props.module!;
+  }
+
+  public get videoUrl(): string | null {
+    return this.props.videoUrl ?? null;
+  }
+
+  public set videoUrl(videoUrl: string) {
+    this.props.videoUrl = videoUrl;
+  }
+
+  public async generatePresignedUrl() {
+    const storageProvider = makeStorageProvider();
+
+    this.props.videoUrl = await storageProvider.generatePresignedUrl(this.props.videoKey, 3600, true);
   }
 }
