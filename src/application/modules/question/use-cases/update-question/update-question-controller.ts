@@ -20,7 +20,6 @@ export class UpdateQuestionController implements IController {
 
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
     const video = request.file ? request.file : undefined;
-    console.log(request.file);
 
     const parsedBody = schema.parse({ ...request.params, ...request.body, video });
 

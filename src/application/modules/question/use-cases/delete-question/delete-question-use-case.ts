@@ -36,8 +36,7 @@ export class DeleteQuestionUseCase implements IUseCase<IInput, IOutput> {
 
       await this.lessonRepo.changeModulesCount(question.lessonId, 'DECREMENT');
 
-    } catch (err) {
-      console.log(err);
+    } catch {
       throw new InternalServerHTTPError('Ocorreu um erro ao excluir questão');
     }
   }

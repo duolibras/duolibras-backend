@@ -13,12 +13,7 @@ const schema = z.object({
   type: z.nativeEnum(QuestionType),
   video: z.object({ path: z.string() }).transform(v => v.path).optional(),
   machineLearningModelId: z.string().ulid().optional(),
-  answers: z.string().transform(v => JSON.parse(v)).refine(
-    v => {
-      console.log(v);
-      return answersSchema.parse(v);
-    },
-  ).optional(),
+  answers: z.string().transform(v => JSON.parse(v)).refine(v =>  answersSchema.parse(v)).optional(),
 });
 
 const answersSchema = z.array(z.object({

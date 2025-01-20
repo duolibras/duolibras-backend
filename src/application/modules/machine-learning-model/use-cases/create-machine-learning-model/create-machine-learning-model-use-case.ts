@@ -32,7 +32,6 @@ export class CreateMachineLearningModelUseCase implements IUseCase<IInput, IOutp
     if (filesResult.some((fileresult) => fileresult.status === 'rejected')) {
       const failedFiles = filesResult.find((fileResult) => fileResult.status === 'rejected');
 
-      console.log(failedFiles?.reason);
       const successFullFiles = filesResult.filter((fileResult) => fileResult.status === 'fulfilled');
 
       await Promise.all(successFullFiles.map(file => this.storageProvider.remove(file.value.fileKey)));
