@@ -58,7 +58,6 @@ export class AnswerMapper {
       id: data.id,
       description: data.description,
       videoKey: data.videoKey,
-      isCorrect: data.isCorrect,
       questionId: data.questionId,
     };
   }
