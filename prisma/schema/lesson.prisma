@@ -33,8 +33,8 @@ model LessonUserJourneyStatus {
   lessonId  String            @map("lesson_id")
   status    UserJourneyStatus @default(UNAVAILABLE)
 
-  lesson         Lesson      @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  accountJourney UserJourney @relation(fields: [accountId], references: [accountId])
+  lesson         Lesson  @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  accountJourney Account @relation(fields: [accountId], references: [id])
 
   @@id([accountId, lessonId])
   @@map("lesson_user_journey_statuses")

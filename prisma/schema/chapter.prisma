@@ -16,12 +16,13 @@ model Chapter {
 }
 
 model ChapterUserJourneyStatus {
-  accountId String            @map("account_id")
-  chapterId String            @map("chapter_id")
-  status    UserJourneyStatus @default(UNAVAILABLE)
+  accountId             String            @map("account_id")
+  chapterId             String            @map("chapter_id")
+  status                UserJourneyStatus @default(UNAVAILABLE)
+  lessonsCompletedCount Int               @default(0) @map("lessons_completed_count")
 
-  chapter        Chapter     @relation(fields: [chapterId], references: [id], onDelete: Cascade)
-  accountJourney UserJourney @relation(fields: [accountId], references: [accountId])
+  chapter        Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  accountJourney Account @relation(fields: [accountId], references: [id])
 
   @@id([accountId, chapterId])
   @@map("chapter_user_journey_statuses")

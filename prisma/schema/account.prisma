@@ -5,11 +5,14 @@ model Account {
   password String
   roleCode String @map("role_code")
 
-  role        Role         @relation(fields: [roleCode], references: [code], onDelete: Restrict)
-  UserJourney UserJourney?
+  role Role @relation(fields: [roleCode], references: [code], onDelete: Restrict)
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  unitUserJourneyStatus    UnitUserJourneyStatus[]
+  lessonUserJourneyStatus  LessonUserJourneyStatus[]
+  chapterUserJourneyStatus ChapterUserJourneyStatus[]
 
   @@map("accounts")
 }

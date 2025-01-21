@@ -13,12 +13,13 @@ model Unit {
 }
 
 model UnitUserJourneyStatus {
-  accountId String            @map("account_id")
-  unitId    String            @map("unit_id")
-  status    UserJourneyStatus @default(UNAVAILABLE)
+  accountId              String            @map("account_id")
+  unitId                 String            @map("unit_id")
+  status                 UserJourneyStatus @default(UNAVAILABLE)
+  chaptersCompletedCount Int               @default(0) @map("chapters_completed_count")
 
-  unit           Unit        @relation(fields: [unitId], references: [id], onDelete: Cascade)
-  accountJourney UserJourney @relation(fields: [accountId], references: [accountId], onDelete: Cascade)
+  unit           Unit    @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  accountJourney Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
 
   @@id([accountId, unitId])
   @@map("unit_user_journey_statuses")
