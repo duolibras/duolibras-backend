@@ -8,6 +8,7 @@ model Question {
   name                   String
   description            String
   videoKey               String?      @map("video_key")
+  answer                 String?
   lessonId               String       @map("lesson_id")
   machineLearningModelId String?      @map("machine_learning_model_id")
   type                   QuestionType

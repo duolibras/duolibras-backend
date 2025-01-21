@@ -16,6 +16,7 @@ interface IInput {
   lessonId: string;
   type: QuestionType;
   machineLearningModelId?: string;
+  answer?: string;
   answers?: {
     description: string;
     isCorrect: boolean;
@@ -34,7 +35,7 @@ export class CreateQuestionUseCase implements IUseCase<IInput, IOutput> {
     private readonly storageProvider: StorageProvider,
   ) {}
 
-  async execute({ name, lessonId, description, video, type, answers, machineLearningModelId }: IInput): Promise<IOutput> {
+  async execute({ name, lessonId, description, video, type, answers, machineLearningModelId, answer }: IInput): Promise<IOutput> {
     const lesson = await this.lessonRepo.getLesson(lessonId);
 
     if (!lesson) {
@@ -67,6 +68,7 @@ export class CreateQuestionUseCase implements IUseCase<IInput, IOutput> {
       lessonId,
       videoKey: video,
       type,
+      answer,
       machineLearningModelId,
     });
 

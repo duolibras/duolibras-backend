@@ -18,6 +18,7 @@ export interface QuestionProps extends IEntityProps {
   type: QuestionType;
   answers?: Answer[];
   machineLearningModelId?: string | null;
+  answer?: string | null;
 }
 
 export class Question extends Entity {
@@ -83,5 +84,9 @@ export class Question extends Entity {
 
   public get machineLearningModelId(): string | null {
     return this.props.machineLearningModelId ?? null;
+  }
+
+  public get answer(): string | null {
+    return this.props.answer ?? null;
   }
 }

@@ -11,6 +11,7 @@ export class QuestionMapper {
       description: question.description,
       videoKey: question.videoKey,
       type: question.type,
+      answer: question.answer,
       createdAt: question.createdAt,
       updatedAt: question.updatedAt,
       machineLearningModel: question.machineLearningModelId ? {
@@ -52,6 +53,7 @@ export class QuestionMapper {
       description: data.description,
       lessonId: data.lessonId,
       videoKey: data.videoKey,
+      answer: data.answer,
       type: data.type as QuestionType,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
@@ -76,15 +78,26 @@ export class QuestionMapper {
   }
 
   static toSummaryHttp(data: Question) {
-    return {
-      id: data.id,
-      name: data.name,
-      description: data.description,
-      videoUrl: data.videoUrl,
-      type: data.type,
-      lessonId: data.lessonId,
-      answers: data.answers.map(AnswerMapper.toSummaryHttp),
-      machineLearningModelId: data.machineLearningModelId,
-    };
+    return data.type === QuestionType.VIDEO
+      ? {
+        id: data.id,
+        name: data.name,
+        description: data.description,
+        type: data.type,
+        lessonId: data.lessonId,
+        answer: data.answer,
+        machineLearningModelId: data.machineLearningModelId,
+      }
+      : {
+        id: data.id,
+        name: data.name,
+        description: data.description,
+        videoUrl: data.videoUrl,
+        type: data.type,
+        lessonId: data.lessonId,
+        answers: data.answers.map(AnswerMapper.toSummaryHttp),
+        machineLearningModelId: data.machineLearningModelId,
+      };
+
   }
 }

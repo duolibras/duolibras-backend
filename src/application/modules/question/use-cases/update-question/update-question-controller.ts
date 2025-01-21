@@ -11,6 +11,7 @@ const schema = z.object({
   description: z.string().optional(),
   video: z.object({ path: z.string() }).transform(v => v.path).optional(),
   machineLearningModelId: z.string().ulid().optional(),
+  answer: z.string().optional(),
 });
 
 export class UpdateQuestionController implements IController {

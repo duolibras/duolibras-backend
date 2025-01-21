@@ -10,6 +10,7 @@ const schema = z.object({
   name: z.string(),
   description: z.string(),
   lessonId: z.string().ulid(),
+  answer: z.string().optional(),
   type: z.nativeEnum(QuestionType),
   video: z.object({ path: z.string() }).transform(v => v.path).optional(),
   machineLearningModelId: z.string().ulid().optional(),
@@ -29,7 +30,7 @@ export class CreateQuestionController implements IController {
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
     const video = request.file ? request.file : undefined;
 
-    const { ...parsedBody } = schema.parse({
+    const parsedBody = schema.parse({
       ...request.body,
       video,
     });
