@@ -46,6 +46,11 @@ Configure o arquivo .env com suas variáveis:
 ```env
 DATABASE_URL="postgresql://duolibras-postgres:duolibras-postgres@localhost:5432/duolibras-db?schema=public"
 JWT_SECRET="sua-chave-secreta"
+
+AWS_S3_BUCKET_NAME="o-nome-do-seu-bucket-da-aws"
+AWS_S3_REGION="a-região-do-seu-bucket-da-aws"
+AWS_ACCESS_KEY_ID="a-sua-chave-de-acesso-do-bucket-da-aws"
+AWS_SECRET_ACCESS_KEY="a-sua-chave-secreta-de-acesso-do-bucket-da-aws"
 ```
 
 4. **Inicie o banco de dados**
