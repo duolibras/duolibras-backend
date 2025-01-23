@@ -1,7 +1,11 @@
+import { MixedFiles, MultipleFiles, SingleFile } from '../middlewares/file-upload/shared';
+
 export interface IHttpRequest {
   body: Record<string, any>;
   params: Record<string, string>;
   headers: Record<string, string>;
+  file: SingleFile;
+  files: MultipleFiles | MixedFiles;
   account?: {
     id: string;
     role: string;

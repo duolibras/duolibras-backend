@@ -3,14 +3,11 @@ import { Roles } from '@/application/modules/auth/entities/account';
 import { IHttpRequest, IHttpResponse } from '../interfaces/http';
 import { IData, IMiddleware } from '../interfaces/middleware';
 
-export interface IOptions {
-  operator: 'OR' | 'AND';
-}
+export interface IOptions {}
 
 export class AuthorizationMiddleware implements IMiddleware {
   constructor(
     private readonly requiredRoles: Roles[],
-    private readonly options?: IOptions,
   ) {}
 
   async handle({ account }: IHttpRequest): Promise<IHttpResponse | IData> {
@@ -23,8 +20,7 @@ export class AuthorizationMiddleware implements IMiddleware {
       };
     }
 
-    const filterFn = this.options?.operator === 'AND' ? 'every' : 'some';
-    const isAllowed = this.requiredRoles[filterFn](role => (
+    const isAllowed = this.requiredRoles.some(role => (
       account.role === role
     ));
 

@@ -1,0 +1,40 @@
+enum QuestionType {
+  VIDEO
+  SINGLE_CHOICE
+}
+
+model Question {
+  id                     String       @id
+  name                   String
+  description            String
+  videoKey               String?      @map("video_key")
+  answer                 String?
+  lessonId               String       @map("lesson_id")
+  machineLearningModelId String?      @map("machine_learning_model_id")
+  type                   QuestionType
+
+  answers              Answer[]
+  lesson               Lesson                @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  module               Module?
+  machineLearningModel MachineLearningModel? @relation(fields: [machineLearningModelId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("questions")
+}
+
+model Answer {
+  id          String  @id
+  description String?
+  videoKey    String? @map("video_key")
+  isCorrect   Boolean @map("is_correct")
+  questionId  String  @map("question_id")
+
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("answers")
+}

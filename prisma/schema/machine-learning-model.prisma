@@ -1,0 +1,16 @@
+model MachineLearningModel {
+  id          String @id
+  name        String
+  description String
+  weightsKey  String @map("weights_key")
+  modelKey    String @map("model_key")
+  metadataKey String @map("metadata_key")
+
+  lessons   LessonMachineLearningModel[]
+  questions Question[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("machine_learning_models")
+}

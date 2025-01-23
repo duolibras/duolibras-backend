@@ -1,0 +1,21 @@
+enum ModuleType {
+  CONTENT
+  QUESTION
+}
+
+model Module {
+  id         String     @id
+  lessonId   String     @map("lesson_id")
+  contentId  String?    @unique @map("content_id")
+  questionId String?    @unique @map("question_id")
+  type       ModuleType
+
+  content  Content?  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  question Question? @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  lesson   Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("modules")
+}

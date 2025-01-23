@@ -2,9 +2,11 @@ import { makeHandleApplicationErrorMiddleware } from '@/application/shared/http/
 import express from 'express';
 import { errorMiddlewareAdapter } from './adapters/error-middleware-adapter';
 import { appRouter } from './routes/app-router';
+import cors from 'cors';
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.use(appRouter);

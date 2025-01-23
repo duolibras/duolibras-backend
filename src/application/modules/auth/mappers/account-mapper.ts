@@ -17,7 +17,7 @@ export class AccountMapper {
         connect: {
           code: account.roleCode
         }
-      }
+      },
     };
   }
 

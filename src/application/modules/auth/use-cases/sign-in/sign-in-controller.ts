@@ -16,8 +16,8 @@ export class SignInController implements IController {
   async handle({ body }: IHttpRequest): Promise<IHttpResponse> {
     const { email, password } = schema.parse(body);
 
-    const { accessToken } = await this.signInUseCase.execute({ email, password });
+    const { accessToken, role } = await this.signInUseCase.execute({ email, password });
 
-    return new HttpResponse({ body: { accessToken } }).ok();
+    return new HttpResponse({ body: { accessToken, role } }).ok();
   }
 }

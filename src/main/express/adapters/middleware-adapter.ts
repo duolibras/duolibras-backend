@@ -9,6 +9,8 @@ export function middlewareAdapter(middleware: IMiddleware) {
         params: request.params,
         account: request.metadata?.account,
         headers: request.headers as Record<string, string>,
+        file: request.file,
+        files: request.files,
       });
 
       if ('statusCode' in result) {
