@@ -34,9 +34,7 @@ export class ModuleMapper {
 
   static toSummaryHttp(data: Module) {
     const http = {
-      id: data.id,
       type: data.type,
-      lessonId: data.lessonId,
       contentId: data.contentId,
       questionId: data.questionId,
     } as any;

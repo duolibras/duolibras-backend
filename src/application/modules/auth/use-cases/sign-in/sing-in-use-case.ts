@@ -2,6 +2,7 @@ import { UnauthorizedHTTPError } from '@/application/shared/http/errors/unauthor
 import { IUseCase } from '@/application/shared/http/interfaces/use-case';
 import { HashProvider } from '@/application/shared/providers/hash-provider/hash-provider';
 import { TokenProvider } from '@/application/shared/providers/token-provider/token-provider';
+import { Roles } from '../../entities/account';
 import { AuthRepository } from '../../repositories/auth-repository';
 
 interface IInput {
@@ -11,6 +12,7 @@ interface IInput {
 
 interface IOutput {
   accessToken: string;
+  role: Roles;
 }
 
 export class SignInUseCase implements IUseCase<IInput, IOutput> {
@@ -41,6 +43,7 @@ export class SignInUseCase implements IUseCase<IInput, IOutput> {
 
     return {
       accessToken,
+      role: account.roleCode,
     };
   }
 }
