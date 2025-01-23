@@ -45,7 +45,6 @@ export class AnswerMapper {
     return {
       id: data.id,
       description: data.description,
-      videoKey: data.videoKey,
       isCorrect: data.isCorrect,
       questionId: data.questionId,
       createdAt: data.createdAt,
@@ -57,8 +56,6 @@ export class AnswerMapper {
     return {
       id: data.id,
       description: data.description,
-      videoKey: data.videoKey,
-      questionId: data.questionId,
     };
   }
 }
