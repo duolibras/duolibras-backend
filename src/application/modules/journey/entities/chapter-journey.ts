@@ -6,6 +6,7 @@ import { LessonJourney } from './lesson-journey';
 interface ChapterJourneyProps extends ChapterProps {
   lessons: LessonJourney[];
   status?: UserJourneyStatus | null;
+  lessonsAccomplished: number;
 }
 
 export class ChapterJourney extends Chapter {
@@ -22,6 +23,10 @@ export class ChapterJourney extends Chapter {
 
   public get status(): UserJourneyStatus | null {
     return this.props.status ?? null;
+  }
+
+  public get lessonsAccomplished(): number {
+    return this.props.lessonsAccomplished;
   }
 
   public set status(status: UserJourneyStatus) {

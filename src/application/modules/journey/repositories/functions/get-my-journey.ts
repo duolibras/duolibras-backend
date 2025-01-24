@@ -8,7 +8,7 @@ export async function prismaGetMyJourney(accountId: string): Promise<Journey> {
     include: {
       usersJourneysStatus: {
         where: { accountId },
-        select: { status: true },
+        select: { status: true, chaptersCompletedCount: true },
         take: 1,
       },
       chapters: {
@@ -16,7 +16,7 @@ export async function prismaGetMyJourney(accountId: string): Promise<Journey> {
         include: {
           chaptersUserJourneyStatus: {
             where: { accountId },
-            select: { status: true },
+            select: { status: true, lessonsCompletedCount: true },
             take: 1,
           },
           lessons: {

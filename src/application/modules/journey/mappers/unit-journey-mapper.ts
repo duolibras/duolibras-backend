@@ -6,16 +6,20 @@ import { ChapterJourneyMapper, RawChapterJourney } from './chapter-journey-mappe
 
 export interface RawUnitJourney extends RawUnit {
   usersJourneysStatus: {
-    status: RawUserJourneyStatus
+    status: RawUserJourneyStatus;
+    chaptersCompletedCount: number;
   }[];
   chapters: RawChapterJourney[]
 }
 
 export class UnitJourneyMapper {
   static toDomain(data: RawUnitJourney): UnitJourney {
+    const unitJourney = data.usersJourneysStatus?.[0] ?? {};
+
     return new UnitJourney({
       ...UnitMapper.toDomain(data).props,
-      status: data.usersJourneysStatus?.[0]?.status as UserJourneyStatus,
+      chaptersAccomplished: unitJourney.chaptersCompletedCount ?? 0,
+      status: unitJourney.status as UserJourneyStatus,
       chapters: data.chapters.map(ChapterJourneyMapper.toDomain)
     });
   }
@@ -23,6 +27,7 @@ export class UnitJourneyMapper {
   static toHttp(unitJourney: UnitJourney) {
     return {
       ...UnitMapper.toSummaryHttp(unitJourney),
+      chaptersAccomplished: unitJourney.chaptersAccomplished,
       status: unitJourney.status,
       chapters: unitJourney.chapters.map(ChapterJourneyMapper.toHttp)
     };
