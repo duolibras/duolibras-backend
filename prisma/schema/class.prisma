@@ -28,8 +28,8 @@ model ClassStudent {
 
   status ClassStudentStatus
 
-  startedAt  DateTime @default(now()) @map("started_at")
-  compltedAt DateTime @default(now()) @map("completed_at")
+  startedAt   DateTime @default(now()) @map("started_at")
+  completedAt DateTime @default(now()) @map("completed_at")
 
   @@id([classId, studentId])
   @@map("classes_students")

@@ -3,7 +3,7 @@ model Course {
   name        String
   description String
   value       Float?
-  preemiuum   Boolean
+  preemium    Boolean
   classCount  Int     @map("class_count")
   teacherId   String  @map("teacher_id")
 

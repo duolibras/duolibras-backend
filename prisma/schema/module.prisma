@@ -1,6 +1,8 @@
 enum ModuleType {
   CONTENT
   QUESTION
+
+  @@map("module_type")
 }
 
 model Module {
