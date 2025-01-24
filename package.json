@@ -47,7 +47,6 @@
     "@types/multer": "^1.4.12",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.7",
-    "duolibras-backend": "link:",
     "express": "^4.21.2",
     "fs-extra": "^11.3.0",
     "jsonwebtoken": "^9.0.2",
