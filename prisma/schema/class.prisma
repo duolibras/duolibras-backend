@@ -1,0 +1,36 @@
+model Class {
+  id          String  @id
+  name        String
+  description String
+  bannerKey   String? @map("banner_key")
+  videoKey    String? @map("video_key")
+  courseId    String  @unique @map("course_id")
+
+  course Course @relation(fields: [courseId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("classes")
+}
+
+enum ClassStudentStatus {
+  ACCOMPLISHED
+  AVAILABLE
+  UNAVAILABLE
+
+  @@map("class_student_status")
+}
+
+model ClassStudent {
+  classId   String @map("class_id")
+  studentId String @map("student_id")
+
+  status ClassStudentStatus
+
+  startedAt  DateTime @default(now()) @map("started_at")
+  compltedAt DateTime @default(now()) @map("completed_at")
+
+  @@id([classId, studentId])
+  @@map("classes_students")
+}

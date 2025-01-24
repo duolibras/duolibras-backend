@@ -1,0 +1,33 @@
+model Course {
+  id          String  @id
+  name        String
+  description String
+  value       Float?
+  preemiuum   Boolean
+  classCount  Int     @map("class_count")
+  teacherId   String  @map("teacher_id")
+
+  teacher        Account         @relation(fields: [teacherId], references: [id])
+  classes        Class[]
+  courseStudents CourseStudent[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("courses")
+}
+
+model CourseStudent {
+  studentId    String @map("student_id")
+  courseId     String @map("course_id")
+  feedbackRate Float? @map("feedback_rate")
+
+  student Account @relation(fields: [studentId], references: [id])
+  course  Course  @relation(fields: [courseId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@id([studentId, courseId])
+  @@map("courses_students")
+}
