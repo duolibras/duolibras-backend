@@ -15,7 +15,7 @@
     "db:down": "docker-compose down",
     "db:seed": "pnpm prisma db seed",
     "build": "pnpm build:clear && pnpm build:generate",
-    "build:generate": "swc src -d build",
+    "build:generate": "swc src -d build --config-file ./swc.config.json",
     "build:clear": "rm -rf build/"
   },
   "prisma": {
