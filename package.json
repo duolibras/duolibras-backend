@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node build/index.js",
+    "start": "node build/src/index.js",
     "dev": "tsx watch src/index.ts --ignore prisma/seed.ts",
     "typecheck": "tsc --noEmit",
     "test": "jest --watchAll --verbose",
