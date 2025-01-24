@@ -45,7 +45,6 @@ export class LessonMapper {
       id: data.id,
       name: data.name,
       modulesCount: data.modulesCount,
-      chapterId: data.chapterId,
     };
   }
 }
