@@ -18,4 +18,8 @@ export interface CheckoutProvider {
   createCourse(stripeAccountId: string, course: Course): Promise<ICreateCourseResponse>;
 
   generateCheckoutCourseUrl(stripeAccountId: string, course: Course, options: CheckoutUrlOptions): Promise<ICheckoutCourseUrlResponse>;
+
+  archiveCourse(stripeCourseId: string, stripeAccountId: string): Promise<void>;
+  unarchiveCourse(stripeCourseId: string, stripeAccountId: string): Promise<void>;
+  updateCourse(stripeAccountId: string, course: Course): Promise<void>;
 }

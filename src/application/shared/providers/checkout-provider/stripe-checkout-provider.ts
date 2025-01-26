@@ -3,11 +3,14 @@ import { Course } from '@/application/modules/course/entities/course';
 import { env } from '@/application/config/env';
 import Stripe from 'stripe';
 import { CheckoutProvider } from './checkout-provider';
+import { stripeArchiveCourse } from './functions/stripe-archive-course';
 import { stripeCreateAccount } from './functions/stripe-create-account';
 import { stripeCreateCourse } from './functions/stripe-create-course';
 import { stripeGenerateCheckoutCourseUrl } from './functions/stripe-generate-checkout-course-url';
 import { stripeGenerateLoginUrl } from './functions/stripe-generate-login-url';
 import { stripeGenerateOnboardingUrl } from './functions/stripe-generate-onboarding-url';
+import { stripeUnarchiveCourse } from './functions/stripe-unarchive-course';
+import { stripeUpdateCourse } from './functions/stripe-update-course';
 import { CheckoutUrlOptions, ICalculateRevenueSplit, ICheckoutCourseUrlResponse, ICreateCourseResponse, ISetupAccountPaymentDataResponse } from './types';
 import { handleWebhook } from './webhook-functions/handle-webhook';
 
@@ -15,6 +18,17 @@ export class StripeCheckoutProvider implements CheckoutProvider {
   constructor(
     private readonly stripe: Stripe,
   ) {}
+  async archiveCourse(stripeCourseId: string, stripeAccountId: string): Promise<void> {
+    await stripeArchiveCourse(this.stripe, stripeCourseId, stripeAccountId);
+  }
+
+  async unarchiveCourse(stripeCourseId: string, stripeAccountId: string): Promise<void> {
+    await stripeUnarchiveCourse(this.stripe, stripeCourseId, stripeAccountId);
+  }
+
+  async updateCourse(stripeAccountId: string, course: Course): Promise<void> {
+    await stripeUpdateCourse(this.stripe, course, stripeAccountId);
+  }
 
   generateWebhookEvent(body: any, signatureKey: string): Stripe.Event {
     return this.stripe.webhooks.constructEvent(body, signatureKey, env.stripe.webhookSignatureKey);

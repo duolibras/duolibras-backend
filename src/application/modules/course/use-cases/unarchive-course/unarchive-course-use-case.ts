@@ -1,7 +1,10 @@
+import { AccountRepository } from '@/application/modules/account/repositories/account-repository';
+import { BadRequestHttpError } from '@/application/shared/http/errors/bad-request-http-error';
 import { ConflictHTTPError } from '@/application/shared/http/errors/conflict-http-error';
 import { ForbiddenHTTPError } from '@/application/shared/http/errors/forbidden-http-error';
 import { NotFoundHTTPError } from '@/application/shared/http/errors/not-found-http-error';
 import { IUseCase } from '@/application/shared/http/interfaces/use-case';
+import { CheckoutProvider } from '@/application/shared/providers/checkout-provider/checkout-provider';
 import { CourseRepository } from '../../repositories/course-repository';
 
 interface IInput {
@@ -13,7 +16,9 @@ type IOutput = void;
 
 export class UnarchiveCourseUseCase implements IUseCase<IInput, IOutput> {
   constructor(
-    private readonly courseRepo: CourseRepository
+    private readonly courseRepo: CourseRepository,
+    private readonly accountRepo: AccountRepository,
+    private readonly checkoutProvider: CheckoutProvider,
   ) {}
 
   async execute({ accountId, courseId }: IInput): Promise<IOutput> {
@@ -29,6 +34,16 @@ export class UnarchiveCourseUseCase implements IUseCase<IInput, IOutput> {
 
     if (!course.archived) {
       throw new ConflictHTTPError('Esse curso não está arquivado!');
+    }
+
+    if (course.preemium) {
+      const paymentDetails = await this.accountRepo.getAccountPaymentDetails(accountId);
+
+      if (!paymentDetails?.stripeAccountId || !course.stripeCourseId) {
+        throw new BadRequestHttpError('O curso não tem produto criado no stripe');
+      }
+
+      await this.checkoutProvider.unarchiveCourse(course.stripeCourseId, paymentDetails.stripeAccountId);
     }
 
     await this.courseRepo.unarchiveCourse(courseId);

@@ -1,7 +1,6 @@
 import { InternalServerHTTPError } from '@/application/shared/http/errors/internal-server-http-error';
 import { NotFoundHTTPError } from '@/application/shared/http/errors/not-found-http-error';
 import Stripe from 'stripe';
-import { makeStripe } from '../make-stripe';
 import { CheckoutUrlOptions, ICalculateRevenueSplit, ICheckoutCourseUrlResponse } from '../types';
 
 export async function stripeGenerateCheckoutCourseUrl(
@@ -11,28 +10,22 @@ export async function stripeGenerateCheckoutCourseUrl(
   { cancelUrl, successUrl }: CheckoutUrlOptions,
   revenueSplit: ICalculateRevenueSplit,
 ): Promise<ICheckoutCourseUrlResponse> {
-  const connectedStripe = makeStripe(stripeAccountId);
-
-  const stripeCourse = await connectedStripe.products.retrieve(stripeCourseId);
+  const stripeCourse = await stripe.products.retrieve(stripeCourseId, {}, {
+    stripeAccount: stripeAccountId,
+  });
 
   if (!stripeCourse) {
     throw new NotFoundHTTPError('Esse curso não foi encontrado dentro do Stripe!');
   }
 
-  const prices = await connectedStripe.prices.list({ product: stripeCourse.id, limit: 1 }, {
-    stripeAccount: stripeAccountId,
-  });
-
-  const price = prices.data?.[0];
-
-  if (!price) {
+  if (!stripeCourse.default_price) {
     throw new NotFoundHTTPError('Esse curso não tem um preço cadastrado no Stripe!');
   }
 
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
-        price: price.id,
+        price: stripeCourse.default_price.toString(),
         quantity: 1,
       },
     ],

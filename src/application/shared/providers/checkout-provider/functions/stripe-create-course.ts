@@ -6,14 +6,10 @@ export async function stripeCreateCourse(stripe: Stripe, stripeAccountId: string
   const product = await stripe.products.create({
     name: course.name,
     description: course.description,
-  }, {
-    stripeAccount: stripeAccountId
-  });
-
-  await stripe.prices.create({
-    currency: 'BRL',
-    unit_amount: course.priceInCents,
-    product: product.id,
+    default_price_data: {
+      currency: 'BRL',
+      unit_amount: course.priceInCents,
+    }
   }, {
     stripeAccount: stripeAccountId
   });
