@@ -7,6 +7,8 @@ model Course {
   classCount     Int     @map("class_count")
   teacherId      String  @map("teacher_id")
   stripeCourseId String? @unique @map("stripe_course_id")
+  studentsCount  Int     @default(0) @map("students_count")
+  archived       Boolean @default(false)
 
   teacher  Account         @relation(fields: [teacherId], references: [id])
   classes  Class[]
@@ -32,8 +34,8 @@ model CourseStudent {
   paymentStatus     CourseStudentPaymentStatus
   checkoutUrl       String?                    @map("checkout_url")
 
-  student Account @relation(fields: [studentId], references: [id])
-  course  Course  @relation(fields: [courseId], references: [id])
+  student Account @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  course  Course  @relation(fields: [courseId], references: [id], onDelete: Restrict)
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")

@@ -11,6 +11,8 @@ export class CourseMapper {
       priceInCents: domain.priceInCents,
       preemium: domain.preemium,
       classCount: domain.classCount,
+      studentsCount: 0,
+      archived: false,
       stripeCourseId: domain.stripeCourseId,
       teacher: {
         connect: {
@@ -29,6 +31,8 @@ export class CourseMapper {
       description: data.description,
       classCount: data.classCount,
       preemium: data.preemium,
+      studentsCount: data.studentsCount,
+      archived: data.archived,
       priceInCents: data.priceInCents ?? 0,
       teacherId: data.teacherId,
       stripeCourseId: data.stripeCourseId,
@@ -45,7 +49,9 @@ export class CourseMapper {
       preemium: data.preemium,
       priceInCents: data.priceInCents,
       classCount: data.classCount,
+      studentsCount: data.studentsCount,
       teacherId: data.teacherId,
+      archived: data.archived,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     };
@@ -59,7 +65,9 @@ export class CourseMapper {
       preemium: data.preemium,
       priceInCents: data.priceInCents,
       classCount: data.classCount,
+      studentsCount: data.studentsCount,
       teacherId: data.teacherId,
+      archived: data.archived,
     };
   }
 }

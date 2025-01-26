@@ -6,7 +6,8 @@ model Class {
   videoKey    String? @map("video_key")
   courseId    String  @unique @map("course_id")
 
-  course Course @relation(fields: [courseId], references: [id])
+  course   Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  students ClassStudent[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
@@ -25,6 +26,9 @@ enum ClassStudentStatus {
 model ClassStudent {
   classId   String @map("class_id")
   studentId String @map("student_id")
+
+  class   Class   @relation(fields: [classId], references: [id], onDelete: Cascade)
+  student Account @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
   status ClassStudentStatus
 

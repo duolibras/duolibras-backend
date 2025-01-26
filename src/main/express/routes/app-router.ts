@@ -10,7 +10,7 @@ import { answersRouter } from './answer-router';
 import { authRouter } from './auth-router';
 import { chaptersRouter } from './chapter-router';
 import { contentsRouter } from './content-router';
-import { coursesRouter } from './course-mapper';
+import { coursesRouter } from './course-router';
 import { journeyRouter } from './journey-router';
 import { lessonsRouter } from './lesson-router';
 import { machineLearningModelRouter } from './machine-learning-model-router';

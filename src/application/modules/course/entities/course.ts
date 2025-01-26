@@ -6,6 +6,8 @@ export interface CourseProps extends IEntityProps {
   priceInCents?: number;
   preemium: boolean;
   classCount: number;
+  studentsCount: number;
+  archived: boolean;
   teacherId: string;
   stripeCourseId?: string | null;
 }
@@ -38,8 +40,16 @@ export class Course extends Entity {
     return this.props.classCount;
   }
 
+  public get studentsCount(): number {
+    return this.props.studentsCount;
+  }
+
   public get teacherId(): string {
     return this.props.teacherId;
+  }
+
+  public get archived(): boolean {
+    return this.props.archived;
   }
 
   public get stripeCourseId(): string | null {

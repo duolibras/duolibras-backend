@@ -8,6 +8,10 @@ export interface CourseRepository {
   updateCourse(course: Course): Promise<void>;
   deleteCourse(courseId: string): Promise<void>;
 
+  courseHasStudents(courseId: string): Promise<boolean>;
+  archiveCourse(courseId: string): Promise<void>;
+  unarchiveCourse(courseId: string): Promise<void>;
+
   joinCourse(courseStudent: CourseStudent): Promise<void>;
   getCourseStudent(courseId: string, studentId: string): Promise<CourseStudent | null>
   getCourseStudentByCheckoutSessionId(checkoutSessionId: string): Promise<CourseStudent | null>

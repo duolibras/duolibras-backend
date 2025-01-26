@@ -16,6 +16,7 @@ model Account {
   chapterUserJourneyStatus ChapterUserJourneyStatus[]
   coursesAuthor            Course[]
   coursesStudent           CourseStudent[]
+  classesStudent           ClassStudent[]
 
   @@map("accounts")
 }
