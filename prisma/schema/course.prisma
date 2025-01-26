@@ -1,11 +1,12 @@
 model Course {
-  id          String  @id
-  name        String
-  description String
-  value       Float?
-  preemium    Boolean
-  classCount  Int     @map("class_count")
-  teacherId   String  @map("teacher_id")
+  id             String  @id
+  name           String
+  description    String
+  priceInCents   Float?  @map("price_in_cents")
+  preemium       Boolean
+  classCount     Int     @map("class_count")
+  teacherId      String  @map("teacher_id")
+  stripeCourseId String? @unique @map("stripe_course_id")
 
   teacher        Account         @relation(fields: [teacherId], references: [id])
   classes        Class[]

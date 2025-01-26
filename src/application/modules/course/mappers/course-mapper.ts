@@ -8,9 +8,10 @@ export class CourseMapper {
       id: domain.id,
       name: domain.name,
       description: domain.description,
-      value: domain.value,
+      priceInCents: domain.priceInCents,
       preemium: domain.preemium,
       classCount: domain.classCount,
+      stripeCourseId: domain.stripeCourseId,
       teacher: {
         connect: {
           id: domain.teacherId,
@@ -28,8 +29,9 @@ export class CourseMapper {
       description: data.description,
       classCount: data.classCount,
       preemium: data.preemium,
-      value: data.value ?? 0,
+      priceInCents: data.priceInCents ?? 0,
       teacherId: data.teacherId,
+      stripeCourseId: data.stripeCourseId,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     });
@@ -41,7 +43,7 @@ export class CourseMapper {
       name: data.name,
       description: data.description,
       preemium: data.preemium,
-      value: data.value,
+      priceInCents: data.priceInCents,
       classCount: data.classCount,
       teacherId: data.teacherId,
       createdAt: data.createdAt,
@@ -55,7 +57,7 @@ export class CourseMapper {
       name: data.name,
       description: data.description,
       preemium: data.preemium,
-      value: data.value,
+      priceInCents: data.priceInCents,
       classCount: data.classCount,
       teacherId: data.teacherId,
     };

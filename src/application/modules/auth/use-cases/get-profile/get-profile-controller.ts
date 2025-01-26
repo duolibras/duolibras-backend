@@ -1,8 +1,9 @@
+
+import { AccountMapper } from '@/application/modules/account/mappers/account-mapper';
 import { IController } from '@/application/shared/http/interfaces/controller';
 import { IHttpRequest, IHttpResponse } from '@/application/shared/http/interfaces/http';
 import { HttpResponse } from '@/application/shared/http/response/http-response';
 import { z } from 'zod';
-import { AccountMapper } from '../../mappers/account-mapper';
 import { GetProfileUseCase } from './get-profile-use-case';
 
 const schema = z.object({

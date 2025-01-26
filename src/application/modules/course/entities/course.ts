@@ -3,10 +3,11 @@ import { Entity, IEntityProps } from '@/application/shared/entities/entity';
 export interface CourseProps extends IEntityProps {
   name: string;
   description: string;
-  value?: number;
+  priceInCents?: number;
   preemium: boolean;
   classCount: number;
   teacherId: string;
+  stripeCourseId?: string | null;
 }
 
 export class Course extends Entity {
@@ -25,8 +26,8 @@ export class Course extends Entity {
     return this.props.description;
   }
 
-  public get value(): number | undefined {
-    return this.props.value;
+  public get priceInCents(): number | undefined {
+    return this.props.priceInCents;
   }
 
   public get preemium(): boolean {
@@ -39,5 +40,13 @@ export class Course extends Entity {
 
   public get teacherId(): string {
     return this.props.teacherId;
+  }
+
+  public get stripeCourseId(): string | null {
+    return this.props.stripeCourseId ?? null;
+  }
+
+  public set stripeCourseId(stripeCourseId: string) {
+    this.props.stripeCourseId = stripeCourseId;
   }
 }

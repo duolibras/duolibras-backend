@@ -1,8 +1,8 @@
+import { Roles } from '@/application/modules/account/entities/account';
 import { UnauthorizedHTTPError } from '@/application/shared/http/errors/unauthorized-http-error';
 import { IUseCase } from '@/application/shared/http/interfaces/use-case';
 import { HashProvider } from '@/application/shared/providers/hash-provider/hash-provider';
 import { TokenProvider } from '@/application/shared/providers/token-provider/token-provider';
-import { Roles } from '../../entities/account';
 import { AuthRepository } from '../../repositories/auth-repository';
 
 interface IInput {

@@ -1,6 +1,6 @@
 
 
-import { Roles } from '@/application/modules/auth/entities/account';
+import { Roles } from '@/application/modules/account/entities/account';
 
 import { makeCreateAnswerController } from '@/application/modules/answer/use-cases/create-answer/factories/make-create-answer-controller';
 import { makeDeleteAnswerController } from '@/application/modules/answer/use-cases/delete-answer/factories/make-delete-answer-controller';

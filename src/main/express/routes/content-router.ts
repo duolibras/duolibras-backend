@@ -1,6 +1,6 @@
 
 
-import { Roles } from '@/application/modules/auth/entities/account';
+import { Roles } from '@/application/modules/account/entities/account';
 
 import { makeCreateContentController } from '@/application/modules/content/use-cases/create-content/factories/make-create-content-controller';
 import { makeDeleteContentController } from '@/application/modules/content/use-cases/delete-content/factories/make-delete-content-controller';

@@ -1,6 +1,6 @@
 
 
-import { Roles } from '@/application/modules/auth/entities/account';
+import { Roles } from '@/application/modules/account/entities/account';
 
 import { makeCreateQuestionController } from '@/application/modules/question/use-cases/create-question/factories/make-create-question-controller';
 import { makeDeleteQuestionController } from '@/application/modules/question/use-cases/delete-question/factories/make-delete-question-controller';

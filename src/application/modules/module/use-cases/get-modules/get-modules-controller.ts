@@ -1,4 +1,4 @@
-import { Roles } from '@/application/modules/auth/entities/account';
+import { Roles } from '@/application/modules/account/entities/account';
 import { MachineLearningModelMapper } from '@/application/modules/machine-learning-model/mappers/machine-learning-model-mapper';
 import { IController } from '@/application/shared/http/interfaces/controller';
 import { IHttpRequest, IHttpResponse } from '@/application/shared/http/interfaces/http';

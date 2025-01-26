@@ -1,4 +1,4 @@
-import { Roles } from '@/application/modules/auth/entities/account';
+import { Roles } from '@/application/modules/account/entities/account';
 import { UserJourneyStatus } from '@/application/modules/journey/entities/journey';
 import { JourneyRepository } from '@/application/modules/journey/repositories/journey-repository';
 import { LessonRepository } from '@/application/modules/lesson/repositories/lesson-repository';

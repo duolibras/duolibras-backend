@@ -1,6 +1,6 @@
-import { IHttpRequest, IHttpResponse, IHttpStatusCode } from '../interfaces/http';
+import { IHttpResponse, IHttpStatusCode } from '../interfaces/http';
 
-interface IHttpResponseContructor extends Pick<IHttpRequest, 'body'> {}
+interface IHttpResponseContructor extends Pick<IHttpResponse, 'body'> {}
 
 export class HttpResponse {
   constructor(private response?: IHttpResponseContructor) {}

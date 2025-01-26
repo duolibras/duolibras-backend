@@ -1,6 +1,6 @@
 
 
-import { Roles } from '@/application/modules/auth/entities/account';
+import { Roles } from '@/application/modules/account/entities/account';
 import { MachineLearningModelFileNames } from '@/application/modules/machine-learning-model/use-cases/create-machine-learning-model/create-machine-learning-model-controller';
 import { makeCreateMachineLearningModelController } from '@/application/modules/machine-learning-model/use-cases/create-machine-learning-model/factories/make-create-machine-learning-model-controller';
 import { makeDeleteMachineLearningModelController } from '@/application/modules/machine-learning-model/use-cases/delete-machine-learning-model/factories/make-delete-machine-learning-model-controller';

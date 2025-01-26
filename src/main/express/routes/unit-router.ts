@@ -1,6 +1,6 @@
 
 
-import { Roles } from '@/application/modules/auth/entities/account';
+import { Roles } from '@/application/modules/account/entities/account';
 import { makeCreateUnitController } from '@/application/modules/unit/use-cases/create-unit/factories/make-create-unit-controller';
 import { makeDeleteUnitController } from '@/application/modules/unit/use-cases/delete-unit/factories/make-delete-unit-controller';
 import { makeGetUnitsController } from '@/application/modules/unit/use-cases/get-units/factories/make-get-units-controller';

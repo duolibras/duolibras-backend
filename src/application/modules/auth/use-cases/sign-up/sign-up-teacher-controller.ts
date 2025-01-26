@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
+import { Roles } from '@/application/modules/account/entities/account';
 import { IController } from '@/application/shared/http/interfaces/controller';
 import { IHttpRequest, IHttpResponse } from '@/application/shared/http/interfaces/http';
 import { HttpResponse } from '@/application/shared/http/response/http-response';
-import { Roles } from '../../entities/account';
 import { SignUpUseCase } from './sign-up-use-case';
 
 const schema = z.object({

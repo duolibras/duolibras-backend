@@ -2,6 +2,7 @@ import { MixedFiles, MultipleFiles, SingleFile } from '../middlewares/file-uploa
 
 export interface IHttpRequest {
   body: Record<string, any>;
+  query: Record<string, any>;
   params: Record<string, string>;
   headers: Record<string, string>;
   file: SingleFile;
