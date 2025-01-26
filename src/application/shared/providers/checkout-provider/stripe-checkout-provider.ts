@@ -6,6 +6,7 @@ import { CheckoutProvider } from './checkout-provider';
 import { stripeCreateAccount } from './functions/stripe-create-account';
 import { stripeCreateCourse } from './functions/stripe-create-course';
 import { stripeGenerateCheckoutCourseUrl } from './functions/stripe-generate-checkout-course-url';
+import { stripeGenerateLoginUrl } from './functions/stripe-generate-login-url';
 import { stripeGenerateOnboardingUrl } from './functions/stripe-generate-onboarding-url';
 import { CheckoutUrlOptions, ICalculateRevenueSplit, ICheckoutCourseUrlResponse, ICreateCourseResponse, ISetupAccountPaymentDataResponse } from './types';
 import { handleWebhook } from './webhook-functions/handle-webhook';
@@ -21,6 +22,10 @@ export class StripeCheckoutProvider implements CheckoutProvider {
 
   async handleWebhookEvent(event: Stripe.Event): Promise<void> {
     await handleWebhook(event);
+  }
+
+  async generateLoginUrl(stripeAccountId: string): Promise<string> {
+    return stripeGenerateLoginUrl(this.stripe, stripeAccountId);
   }
 
   async generateOnboardingUrl(

@@ -11,6 +11,8 @@ export interface CheckoutProvider {
 
   setupAccountPaymentDetails(accountId: string, returnUrl: string): Promise<ISetupAccountPaymentDataResponse>;
 
+  generateLoginUrl(stripeAccountId: string): Promise<string>;
+
   generateOnboardingUrl(stripeAccountId: string, returnUrl: string, token?: string): Promise<string>;
 
   createCourse(stripeAccountId: string, course: Course): Promise<ICreateCourseResponse>;

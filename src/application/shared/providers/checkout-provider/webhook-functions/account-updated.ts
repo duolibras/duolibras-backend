@@ -4,6 +4,8 @@ import Stripe from 'stripe';
 
 export function accountUpdate(account: Stripe.Account, accountsRepo: AccountRepository) {
   return async () => {
+
+    console.log('fui chamado');
     if (
       account.charges_enabled &&
       account.payouts_enabled &&
