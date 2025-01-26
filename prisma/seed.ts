@@ -1,3 +1,4 @@
+
 import { Roles } from '@/application/modules/auth/entities/account';
 import { Role } from '@/application/modules/auth/entities/role';
 import { makeSignUpUseCase } from '@/application/modules/auth/use-cases/sign-up/factories/make-sign-up-use-case';
@@ -20,7 +21,11 @@ async function seed() {
 
   const createAccountUseCase = makeSignUpUseCase();
 
-  await createAccountUseCase.execute({
+  const adminAlreadyExists = await prismaClient.account.findUnique({
+    where:  { email: 'duolibras@gmail.com' }
+  });
+
+  adminAlreadyExists ?? await createAccountUseCase.execute({
     name: 'Duolibras',
     email: 'duolibras@gmail.com',
     password: 'Mudar@123',
