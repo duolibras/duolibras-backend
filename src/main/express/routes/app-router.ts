@@ -1,6 +1,7 @@
 
 import { makeCreatePaymentDetailsOnboardingUrlController } from '@/application/modules/account/use-cases/create-payment-details-onboarding-url/factories/make-create-payment-details-onboarding-url-controller';
 import { Router } from 'express';
+import rateLimit from 'express-rate-limit';
 import { makeAuthenticationMiddleware } from '../../../application/shared/http/middlewares/factories/make-authentication-middleware';
 import { middlewareAdapter } from '../adapters/middleware-adapter';
 import { routeAdapter } from '../adapters/route-adapter';
@@ -24,7 +25,14 @@ const authMiddleware = middlewareAdapter(makeAuthenticationMiddleware());
 
 appRouter.use('/auth', authRouter);
 
+const limiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  limit: 20,
+  message: 'Too many requests, please try again later.'
+});
+
 appRouter.get('/payments-details/onboarding',
+  limiter,
   routeAdapter(makeCreatePaymentDetailsOnboardingUrlController(), {
     bodyParamUrl: 'onboardingUrl',
     shallRedirect: true

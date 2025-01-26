@@ -1,4 +1,5 @@
 import { Course } from '../entities/course';
+import { CourseStudent } from '../entities/course-student';
 
 export interface CourseRepository {
   getCourse(courseId: string): Promise<Course | null>;
@@ -6,4 +7,10 @@ export interface CourseRepository {
   createCourse(course: Course): Promise<void>;
   updateCourse(course: Course): Promise<void>;
   deleteCourse(courseId: string): Promise<void>;
+
+  joinCourse(courseStudent: CourseStudent): Promise<void>;
+  getCourseStudent(courseId: string, studentId: string): Promise<CourseStudent | null>
+  getCourseStudentByCheckoutSessionId(checkoutSessionId: string): Promise<CourseStudent | null>
+  updateCourseStudentCheckoutSession(courseStudent: CourseStudent): Promise<void>;
+  updateCourseStudentPaymentStatus(courseStudent: CourseStudent): Promise<void>;
 }

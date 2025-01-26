@@ -9,9 +9,6 @@ interface Options {
 export function routeAdapter(controller: IController, options?: Options) {
   return async (request: Request, response: Response, next: NextFunction) => {
     try {
-
-      console.log(request.query);
-
       const { statusCode, body } = await controller.handle({
         body: request.body,
         params: request.params,

@@ -2,27 +2,32 @@ import { IController } from '@/application/shared/http/interfaces/controller';
 import { IHttpRequest, IHttpResponse } from '@/application/shared/http/interfaces/http';
 import { HttpResponse } from '@/application/shared/http/response/http-response';
 import { z } from 'zod';
-import { CreatePaymentDetailsOnboardingUrlUseCase } from './create-payment-details-onboarding-url-use-case';
+import { UpdatePaymentDetailsUseCase } from './update-payment-details-use-case';
 
 const schema = z.object({
-  token: z.string().jwt(),
+  accountId: z.string().ulid(),
   returnUrl: z.string().url(),
 });
 
-export class CreatePaymentDetailsOnboardingUrlController implements IController {
+export class UpdatePaymentDetailsController implements IController {
   constructor(
-    private readonly useCase: CreatePaymentDetailsOnboardingUrlUseCase
+    private readonly useCase: UpdatePaymentDetailsUseCase,
   ) {}
 
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
-    const parsedBody = schema.parse(request.query);
+    const parsedBody = schema.parse({
+      accountId: request.account?.id,
+      ...request.body,
+    });
 
-    const { onboardingUrl } = await this.useCase.execute(parsedBody);
+    const { updatePaymentDetailsUrl } = await this.useCase.execute(parsedBody);
 
     return new HttpResponse({
       body: {
-        onboardingUrl,
+        updatePaymentDetailsUrl,
       }
     }).ok();
   }
+
+
 }

@@ -1,3 +1,4 @@
+import { ConflictHTTPError } from '@/application/shared/http/errors/conflict-http-error';
 import { IUseCase } from '@/application/shared/http/interfaces/use-case';
 import { CheckoutProvider } from '@/application/shared/providers/checkout-provider/checkout-provider';
 import { AccountPaymentDetails } from '../../entities/account-payment-details';
@@ -20,6 +21,12 @@ export class CreatePaymentDetailsUseCase implements IUseCase<IInput, IOutput> {
 
   async execute(input: IInput): Promise<IOutput> {
     const { accountId, returnUrl } = input;
+
+    const paymentDetailsFound = await this.accountRepository.getAccountPaymentDetails(accountId);
+
+    if (paymentDetailsFound) {
+      throw new ConflictHTTPError('Essa conta já tem detalhes de pagamento criada, utilize a rota de update para gerar um link de atualização de dados');
+    }
 
     const { paymentDetails } = await this.checkoutProvider.setupAccountPaymentDetails(
       accountId,

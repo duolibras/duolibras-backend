@@ -8,7 +8,7 @@ export function accountUpdate(account: Stripe.Account, accountsRepo: AccountRepo
       account.charges_enabled &&
       account.payouts_enabled &&
       !account.requirements?.currently_due?.length &&
-      !account.requirements?.pending_verification
+      !account.requirements?.pending_verification?.length
     ) {
       await accountsRepo.changeAccountPaymentDetailsStatus(account.id, AccountPaymentDetailsStatus.COMPLETED);
     }

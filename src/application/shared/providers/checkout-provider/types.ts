@@ -19,6 +19,7 @@ export interface ICalculateRevenueSplit {
 }
 
 export interface ICheckoutCourseUrlResponse {
+  checkoutSessionId: string;
   url: string;
 }
 

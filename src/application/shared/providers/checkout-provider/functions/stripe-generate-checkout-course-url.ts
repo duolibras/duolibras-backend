@@ -51,6 +51,7 @@ export async function stripeGenerateCheckoutCourseUrl(
   }
 
   return {
+    checkoutSessionId: session.id,
     url: session.url,
   };
 }

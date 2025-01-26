@@ -8,9 +8,9 @@ model Course {
   teacherId      String  @map("teacher_id")
   stripeCourseId String? @unique @map("stripe_course_id")
 
-  teacher        Account         @relation(fields: [teacherId], references: [id])
-  classes        Class[]
-  courseStudents CourseStudent[]
+  teacher  Account         @relation(fields: [teacherId], references: [id])
+  classes  Class[]
+  students CourseStudent[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
@@ -18,10 +18,19 @@ model Course {
   @@map("courses")
 }
 
+enum CourseStudentPaymentStatus {
+  EXPIRED
+  PENDING
+  APPROVED
+}
+
 model CourseStudent {
-  studentId    String @map("student_id")
-  courseId     String @map("course_id")
-  feedbackRate Float? @map("feedback_rate")
+  studentId         String                     @map("student_id")
+  courseId          String                     @map("course_id")
+  feedbackRate      Float?                     @map("feedback_rate")
+  checkoutSessionId String?                    @unique @map("checkout_session_id")
+  paymentStatus     CourseStudentPaymentStatus
+  checkoutUrl       String?                    @map("checkout_url")
 
   student Account @relation(fields: [studentId], references: [id])
   course  Course  @relation(fields: [courseId], references: [id])

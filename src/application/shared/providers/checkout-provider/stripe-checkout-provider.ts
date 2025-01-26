@@ -23,8 +23,12 @@ export class StripeCheckoutProvider implements CheckoutProvider {
     await handleWebhook(event);
   }
 
-  async generateOnboardingUrl(stripeAccountId: string, returnUrl: string): Promise<string> {
-    return stripeGenerateOnboardingUrl(this.stripe, stripeAccountId, returnUrl);
+  async generateOnboardingUrl(
+    stripeAccountId: string,
+    returnUrl: string,
+    token?: string,
+  ): Promise<string> {
+    return stripeGenerateOnboardingUrl(this.stripe, stripeAccountId, returnUrl, token);
   }
 
   async setupAccountPaymentDetails(accountId: string, returnUrl: string): Promise<ISetupAccountPaymentDataResponse> {
