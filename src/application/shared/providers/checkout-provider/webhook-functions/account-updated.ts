@@ -4,8 +4,6 @@ import Stripe from 'stripe';
 
 export function accountUpdate(account: Stripe.Account, accountsRepo: AccountRepository) {
   return async () => {
-
-    console.log('fui chamado');
     if (
       account.charges_enabled &&
       account.payouts_enabled &&
@@ -13,6 +11,8 @@ export function accountUpdate(account: Stripe.Account, accountsRepo: AccountRepo
       !account.requirements?.pending_verification?.length
     ) {
       await accountsRepo.changeAccountPaymentDetailsStatus(account.id, AccountPaymentDetailsStatus.COMPLETED);
+    } else {
+      await accountsRepo.changeAccountPaymentDetailsStatus(account.id, AccountPaymentDetailsStatus.PENDING);
     }
   };
 }
