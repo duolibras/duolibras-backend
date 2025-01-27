@@ -1,0 +1,17 @@
+enum FileStatus {
+  PENDING
+  UPLOADED
+}
+
+model File {
+  fileKey String     @id @unique
+  status  FileStatus
+
+  courseBanner Course? @relation(name: "course_banner_file")
+  courseVideo  Course? @relation(name: "course_video_file")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("files")
+}
