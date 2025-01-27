@@ -33,6 +33,10 @@ export class JoinCourseUseCase implements IUseCase<IInput, IOutput> {
       throw new NotFoundHTTPError('Curso não encontrado');
     }
 
+    if (course.teacherId === accountId) {
+      throw new ConflictHTTPError('Você é o criador desse curso, então não precisa se matricular para ter acesso ao conteudo');
+    }
+
     const courseStudentFound = await this.courseRepo.getCourseStudent(courseId, accountId);
 
     const checkout = {} as Partial<ICheckoutCourseUrlResponse>;

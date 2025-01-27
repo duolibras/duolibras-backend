@@ -1,9 +1,16 @@
 import { Course } from '../entities/course';
 import { CourseStudent } from '../entities/course-student';
 
+export interface IGetCourseQuery {
+  teacherId?: string;
+  owned?: boolean;
+  creator?: boolean;
+  archived?: boolean;
+}
+
 export interface CourseRepository {
   getCourse(courseId: string): Promise<Course | null>;
-  getCourses(): Promise<Course[]>;
+  getCourses(accountId: string, query?: IGetCourseQuery): Promise<Course[]>;
   createCourse(course: Course): Promise<void>;
   updateCourse(course: Course): Promise<void>;
   deleteCourse(courseId: string): Promise<void>;

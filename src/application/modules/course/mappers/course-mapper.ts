@@ -1,6 +1,14 @@
 import { HttpMapper } from '@/application/shared/mappers/mapper';
-import { Prisma, Course as RawCourse } from '@prisma/client';
+import { Prisma, Course as RawCourse, CourseStudentPaymentStatus as RawCourseStudentPaymentStatus } from '@prisma/client';
 import { Course } from '../entities/course';
+import { CourseStudentPaymentStatus } from '../entities/course-student';
+
+
+type RawCourseWithStudent = RawCourse & {
+  students: {
+    paymentStatus: RawCourseStudentPaymentStatus;
+  }[];
+}
 
 export class CourseMapper {
   static toPersistence(domain: Course): Prisma.CourseCreateInput {
@@ -24,7 +32,9 @@ export class CourseMapper {
     };
   }
 
-  static toDomain(data: RawCourse): Course {
+  static toDomain(data: RawCourseWithStudent): Course {
+    const owned = data.students?.[0]?.paymentStatus === CourseStudentPaymentStatus.APPROVED;
+
     return new Course({
       id: data.id,
       name: data.name,
@@ -35,6 +45,7 @@ export class CourseMapper {
       archived: data.archived,
       priceInCents: data.priceInCents ?? 0,
       teacherId: data.teacherId,
+      owned: owned,
       stripeCourseId: data.stripeCourseId,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
@@ -52,6 +63,7 @@ export class CourseMapper {
       studentsCount: data.studentsCount,
       teacherId: data.teacherId,
       archived: data.archived,
+      owned: data.owned,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     };
@@ -68,6 +80,7 @@ export class CourseMapper {
       studentsCount: data.studentsCount,
       teacherId: data.teacherId,
       archived: data.archived,
+      owned: data.owned,
     };
   }
 }

@@ -2,6 +2,7 @@ import { Roles } from '@/application/modules/account/entities/account';
 import { makeArchiveCourseController } from '@/application/modules/course/use-cases/archive-course/factories/make-archive-course-controller';
 import { makeCreateCourseController } from '@/application/modules/course/use-cases/create-course/factories/make-create-course-controller';
 import { makeDeleteCourseController } from '@/application/modules/course/use-cases/delete-course/factories/make-delete-course-controller';
+import { makeGetCoursesController } from '@/application/modules/course/use-cases/get-courses/factories/make-get-courses-controller';
 import { makeJoinCourseController } from '@/application/modules/course/use-cases/join-course/factories/make-join-course-controller';
 import { makeUnarchiveCourseController } from '@/application/modules/course/use-cases/unarchive-course/factories/make-unarchive-course-controller';
 import { makeUpdateCourseController } from '@/application/modules/course/use-cases/update-course/factories/make-update-course-controller';
@@ -11,6 +12,10 @@ import { middlewareAdapter } from '../adapters/middleware-adapter';
 import { routeAdapter } from '../adapters/route-adapter';
 
 export const coursesRouter = Router();
+
+coursesRouter.get('/',
+  routeAdapter(makeGetCoursesController()),
+);
 
 coursesRouter.post('/',
   middlewareAdapter(makeAuthorizationMiddleware([Roles.ADMIN, Roles.TEACHER])),

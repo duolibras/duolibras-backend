@@ -10,6 +10,7 @@ export interface CourseProps extends IEntityProps {
   archived: boolean;
   teacherId: string;
   stripeCourseId?: string | null;
+  owned?: boolean;
 }
 
 export class Course extends Entity {
@@ -50,6 +51,10 @@ export class Course extends Entity {
 
   public get archived(): boolean {
     return this.props.archived;
+  }
+
+  public get owned(): boolean {
+    return !!this.props.owned;
   }
 
   public get stripeCourseId(): string | null {

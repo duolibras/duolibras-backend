@@ -1,6 +1,6 @@
 import { Course } from '../entities/course';
 import { CourseStudent } from '../entities/course-student';
-import { CourseRepository } from './course-repository';
+import { CourseRepository, IGetCourseQuery } from './course-repository';
 import { prismaArchiveCourse } from './functions/archive-course';
 import { prismaCorseHasStudents } from './functions/course-has-students';
 import { prismaCreateCourse } from './functions/create-course';
@@ -51,8 +51,8 @@ export class PrismaCourseRepository implements CourseRepository {
     return prismaGetCourse(courseId);
   }
 
-  async getCourses(): Promise<Course[]> {
-    return prismaGetCourses();
+  async getCourses(accountId: string, query?: IGetCourseQuery): Promise<Course[]> {
+    return prismaGetCourses(accountId, query);
   }
 
   async createCourse(course: Course): Promise<void> {
