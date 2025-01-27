@@ -1,5 +1,5 @@
 
-import { GetObjectCommand, S3 } from '@aws-sdk/client-s3';
+import { GetObjectCommand, PutObjectAclCommand, S3 } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import fs from 'fs-extra';
@@ -9,13 +9,31 @@ import path from 'path';
 
 import { env } from '@/application/config/env';
 import { ulid } from 'ulid';
-import { FileStorageResult, StorageProvider } from './storage-provider';
+import { FileStorageResult, GeneratePresignedPostResult, StorageProvider } from './storage-provider';
 
 
 export class AWSS3StorageProvider implements StorageProvider {
   constructor(
     private readonly s3: S3,
   ) {}
+
+  async generatePresignedPostUrl(filename: string, expiresIn: number): Promise<GeneratePresignedPostResult> {
+    const fileKey = `${ulid()}-${filename}`;
+
+    const command = new PutObjectAclCommand({
+      Bucket: env.awsS3.bucketName,
+      Key: fileKey,
+    });
+
+    const presignedUrl = await getSignedUrl(this.s3, command, {
+      expiresIn
+    });
+
+    return {
+      presignedUrl,
+      fileKey
+    };
+  }
 
   async generatePresignedUrl(fileKey: string, expiration: number, video: boolean = false): Promise<string> {
     const command = new GetObjectCommand({
