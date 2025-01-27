@@ -11,7 +11,7 @@ export async function prismaGetCourses(accountId: string, query?: IGetCourseQuer
       ? { teacherId: accountId }
       : { teacherId: { not: accountId } }
     : query?.teacherId
-      ? { teacherId: accountId }
+      ? { teacherId: query.teacherId }
       : undefined;
 
   const ownedCondition: Prisma.CourseWhereInput | undefined = typeof query?.owned === 'boolean'
