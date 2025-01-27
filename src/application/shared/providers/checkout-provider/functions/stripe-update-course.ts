@@ -20,22 +20,13 @@ export async function stripeUpdateCourse(stripe: Stripe, course: Course, stripeA
     stripeAccount: stripeAccountId
   });
 
-  let newPrice = price;
-
-  if (price.unit_amount !== course.priceInCents) {
-    await stripe.prices.update(product.default_price.toString(), {
-      active: false
-    }, {
-      stripeAccount: stripeAccountId,
-    });
-
-    newPrice = await stripe.prices.create({
+  const newPrice = price.unit_amount !== course.priceInCents
+    ? await stripe.prices.create({
       currency: 'BRL',
       unit_amount: course.priceInCents,
-    }, {
-      stripeAccount: stripeAccountId
-    });
-  }
+      product: product.id,
+    }, { stripeAccount: stripeAccountId })
+    : price;
 
 
   await stripe.products.update(course.stripeCourseId, {
@@ -45,4 +36,12 @@ export async function stripeUpdateCourse(stripe: Stripe, course: Course, stripeA
   }, {
     stripeAccount: stripeAccountId
   });
+
+  if (newPrice.id !== price.id) {
+    await stripe.prices.update(price.id, {
+      active: false
+    }, {
+      stripeAccount: stripeAccountId,
+    });
+  }
 }

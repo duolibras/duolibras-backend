@@ -11,7 +11,8 @@ interface IInput {
   description: string;
   accountId: string;
   preemium: boolean;
-  priceInCents: number;
+  priceInCents?: number;
+  archived: boolean;
 }
 
 interface IOutput {
@@ -26,17 +27,18 @@ export class CreateCourseUseCase implements IUseCase<IInput, IOutput> {
   ) {}
 
   async execute(input: IInput): Promise<IOutput> {
-    const { accountId, preemium, description, name, priceInCents } = input;
+    const { accountId, preemium, description, name, priceInCents, archived } = input;
 
     const course = new Course({
       name,
       description,
+      archived,
       preemium,
       teacherId: accountId,
+      studentsCount: 0,
       classCount: 0,
       priceInCents,
     });
-
 
     if (preemium) {
       const accountPaymentsDetails = await this.accountRepo.getAccountPaymentDetails(accountId);

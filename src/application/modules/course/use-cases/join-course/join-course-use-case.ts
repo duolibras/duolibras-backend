@@ -43,7 +43,6 @@ export class JoinCourseUseCase implements IUseCase<IInput, IOutput> {
       }
 
       if (courseStudentFound && courseStudentFound.paymentStatus === CourseStudentPaymentStatus.PENDING) {
-        console.log('cai nesse caso aqui');
         return {
           checkoutUrl: courseStudentFound.checkoutUrl,
         };
@@ -63,6 +62,10 @@ export class JoinCourseUseCase implements IUseCase<IInput, IOutput> {
 
       checkout.url = url;
       checkout.checkoutSessionId = checkoutSessionId;
+    } else {
+      if (courseStudentFound) {
+        throw new ConflictHTTPError('Esse usuário já é aluno desse curso');
+      }
     }
 
     const courseStudent = new CourseStudent({

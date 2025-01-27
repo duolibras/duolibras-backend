@@ -3,32 +3,35 @@ import { IHttpRequest, IHttpResponse } from '@/application/shared/http/interface
 import { HttpResponse } from '@/application/shared/http/response/http-response';
 import { z } from 'zod';
 import { CourseMapper } from '../../mappers/course-mapper';
-import { CreateCourseUseCase } from './create-course-use-case';
+import { UpdateCourseUseCase } from './update-course-use-case';
 
 const schema = z.object({
-  name: z.string(),
-  description: z.string(),
-  accountId: z.string(),
-  preemium: z.boolean(),
+  accountId: z.string().ulid(),
+  courseId: z.string().ulid(),
+  name: z.string().optional(),
+  description: z.string().optional(),
+  preemium: z.boolean().optional(),
   priceInCents: z.number().optional(),
-  archived: z.boolean().optional().transform(v => !!v),
 });
 
-export class CreateCourseController implements IController {
+export class UpdateCourseController implements IController {
   constructor(
-    private readonly useCase: CreateCourseUseCase,
+    private readonly useCase: UpdateCourseUseCase
   ) {}
 
   async handle(request: IHttpRequest): Promise<IHttpResponse> {
     const parsedBody = schema.parse({
-      accountId: request.account?.id,
       ...request.body,
+      ...request.params,
+      accountId: request.account?.id,
     });
 
     const { course } = await this.useCase.execute(parsedBody);
 
     return new HttpResponse({
-      body: CourseMapper.toHttp(course)
-    }).created();
+      body: {
+        course: CourseMapper.toHttp(course),
+      }
+    }).ok();
   }
 }

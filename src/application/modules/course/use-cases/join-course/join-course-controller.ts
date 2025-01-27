@@ -27,6 +27,7 @@ export class JoinCourseController implements IController {
 
     return new HttpResponse({
       body: {
+        message: !checkoutUrl ? 'Matrículado com sucesso' : undefined,
         checkoutUrl,
       }
     }).created();

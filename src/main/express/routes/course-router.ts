@@ -4,6 +4,7 @@ import { makeCreateCourseController } from '@/application/modules/course/use-cas
 import { makeDeleteCourseController } from '@/application/modules/course/use-cases/delete-course/factories/make-delete-course-controller';
 import { makeJoinCourseController } from '@/application/modules/course/use-cases/join-course/factories/make-join-course-controller';
 import { makeUnarchiveCourseController } from '@/application/modules/course/use-cases/unarchive-course/factories/make-unarchive-course-controller';
+import { makeUpdateCourseController } from '@/application/modules/course/use-cases/update-course/factories/make-update-course-controller';
 import { makeAuthorizationMiddleware } from '@/application/shared/http/middlewares/factories/make-authorization-middleware';
 import { Router } from 'express';
 import { middlewareAdapter } from '../adapters/middleware-adapter';
@@ -14,6 +15,11 @@ export const coursesRouter = Router();
 coursesRouter.post('/',
   middlewareAdapter(makeAuthorizationMiddleware([Roles.ADMIN, Roles.TEACHER])),
   routeAdapter(makeCreateCourseController()),
+);
+
+coursesRouter.put('/:courseId',
+  middlewareAdapter(makeAuthorizationMiddleware([Roles.TEACHER])),
+  routeAdapter(makeUpdateCourseController()),
 );
 
 coursesRouter.post('/:courseId/join',

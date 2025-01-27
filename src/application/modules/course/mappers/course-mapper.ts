@@ -12,7 +12,7 @@ export class CourseMapper {
       preemium: domain.preemium,
       classCount: domain.classCount,
       studentsCount: 0,
-      archived: false,
+      archived: domain.archived,
       stripeCourseId: domain.stripeCourseId,
       teacher: {
         connect: {
