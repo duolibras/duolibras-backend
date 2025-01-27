@@ -3,7 +3,7 @@ import { Course } from '../../entities/course';
 import { CourseRepository } from '../../repositories/course-repository';
 
 interface IInput {
-  accountId: string;
+  accountId?: string;
   teacherId?: string;
   owned?: boolean;
   creator?: boolean;
@@ -20,6 +20,7 @@ export class GetCoursesUseCase implements IUseCase<IInput, IOutput> {
   ) {}
 
   async execute({ accountId, ...query }: IInput): Promise<IOutput> {
+    console.log(accountId, query);
     const courses = await this.courseRepo.getCourses(accountId, query);
 
     return {

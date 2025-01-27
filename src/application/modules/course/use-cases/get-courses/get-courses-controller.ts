@@ -13,7 +13,7 @@ const queryBooleanSchema = z.string().optional().transform(value => {
 });
 
 const schema = z.object({
-  accountId: z.string().ulid(),
+  accountId: z.string().ulid().optional(),
   teacherId: z.string().ulid().optional(),
   owned: queryBooleanSchema,
   creator: queryBooleanSchema,

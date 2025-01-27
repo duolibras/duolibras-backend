@@ -17,7 +17,6 @@ app.post('/webhooks/stripe',
     const sig = req.headers['stripe-signature'] as string;
 
     const event = checkoutProvider.generateWebhookEvent(req.body, sig);
-
     await checkoutProvider.handleWebhookEvent(event);
 
     res.status(200).send('Evento processado com sucesso');

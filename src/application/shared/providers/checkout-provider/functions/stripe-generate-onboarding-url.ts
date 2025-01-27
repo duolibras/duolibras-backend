@@ -14,7 +14,7 @@ export async function stripeGenerateOnboardingUrl(
 
   const encodedReturnUrl = encodeURIComponent(returnUrl);
   const refreshUrl =
-      `${env.baseUrl}/payments-details/onboarding?returnUrl=${encodedReturnUrl}&token=${token}`;
+      `${env.baseUrl}/public/payments-details/onboarding?returnUrl=${encodedReturnUrl}&token=${token}`;
 
   const { url } = await stripe.accountLinks.create({
     account: stripeAccountId,

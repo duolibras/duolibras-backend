@@ -51,7 +51,7 @@ export class PrismaCourseRepository implements CourseRepository {
     return prismaGetCourse(courseId);
   }
 
-  async getCourses(accountId: string, query?: IGetCourseQuery): Promise<Course[]> {
+  async getCourses(accountId?: string, query?: IGetCourseQuery): Promise<Course[]> {
     return prismaGetCourses(accountId, query);
   }
 

@@ -5,7 +5,7 @@ import { CourseStudentPaymentStatus } from '../../entities/course-student';
 import { CourseMapper } from '../../mappers/course-mapper';
 import { IGetCourseQuery } from '../course-repository';
 
-export async function prismaGetCourses(accountId: string, query?: IGetCourseQuery): Promise<Course[]> {
+export async function prismaGetCourses(accountId?: string, query?: IGetCourseQuery): Promise<Course[]> {
   const teacherCondition: Prisma.CourseWhereInput | undefined = typeof query?.creator === 'boolean'
     ? query.creator
       ? { teacherId: accountId }
@@ -66,22 +66,20 @@ export async function prismaGetCourses(accountId: string, query?: IGetCourseQuer
         ],
       };
 
-  console.log(archivedCondition);
+  const where: Prisma.CourseWhereInput = accountId
+    ? { ...teacherCondition, ...ownedCondition, ...archivedCondition }
+    : { archived: false };
 
   const courses = await prismaClient.course.findMany({
     orderBy: { id: 'asc' },
-    include: {
+    include: accountId ? {
       students: {
         take: 1,
-        where: { studentId: accountId },
+        where: { studentId: { equals:  accountId } },
         select: { paymentStatus: true }
       }
-    },
-    where: {
-      ...teacherCondition,
-      ...ownedCondition,
-      ...archivedCondition,
-    }
+    } : undefined,
+    where,
   });
 
   return courses.map(CourseMapper.toDomain);
