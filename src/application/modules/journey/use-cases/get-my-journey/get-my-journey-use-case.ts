@@ -3,7 +3,7 @@ import { Journey } from '../../entities/journey';
 import { JourneyRepository } from '../../repositories/journey-repository';
 
 interface IInput {
-  accountId: string;
+  accountId?: string;
 }
 
 interface IOutput {
@@ -18,7 +18,7 @@ export class GetMyJourneyUseCase implements IUseCase<IInput, IOutput> {
   async execute(input: IInput): Promise<IOutput> {
     const { accountId } = input;
 
-    const journey = await this.journeyRepo.getMyJourney(accountId);
+    const journey = await this.journeyRepo.getJourney(accountId);
 
     return {
       journey

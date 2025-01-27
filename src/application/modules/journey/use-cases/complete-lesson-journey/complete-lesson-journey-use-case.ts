@@ -17,7 +17,7 @@ export class CompleteLessonJourneyUseCase implements IUseCase<IInput, IOutput> {
   ) {}
 
   async execute({ accountId, lessonId }: IInput): Promise<IOutput> {
-    const journey = await this.journeyRepo.getMyJourney(accountId);
+    const journey = await this.journeyRepo.getJourney(accountId);
 
     journey.units.forEach((unit) =>
       unit.chapters.forEach((chapter) => {

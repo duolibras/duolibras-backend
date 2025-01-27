@@ -16,6 +16,7 @@ export function checkoutSessionUpdated(
 
     if (status === 'complete' && paymentStatus === 'paid') {
       courseStudent.paymentStatus = CourseStudentPaymentStatus.APPROVED;
+      await courseRepo.changeCourseStudentsCount(courseStudent.id, 'INCREMENT');
     }
 
     if (status === 'expired' && paymentStatus === 'unpaid') {

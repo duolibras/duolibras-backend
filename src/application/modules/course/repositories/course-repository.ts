@@ -1,3 +1,4 @@
+import { CountOperation } from '@/application/shared/types/count-operation';
 import { Course } from '../entities/course';
 import { CourseStudent } from '../entities/course-student';
 
@@ -18,6 +19,8 @@ export interface CourseRepository {
   courseHasStudents(courseId: string): Promise<boolean>;
   archiveCourse(courseId: string): Promise<void>;
   unarchiveCourse(courseId: string): Promise<void>;
+  changeCourseStudentsCount(courseId: string, operation: CountOperation): Promise<void>;
+  changeCourseClassCount(courseId: string, operation: CountOperation): Promise<void>;
 
   joinCourse(courseStudent: CourseStudent): Promise<void>;
   getCourseStudent(courseId: string, studentId: string): Promise<CourseStudent | null>

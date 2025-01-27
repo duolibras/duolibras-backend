@@ -1,7 +1,10 @@
+import { CountOperation } from '@/application/shared/types/count-operation';
 import { Course } from '../entities/course';
 import { CourseStudent } from '../entities/course-student';
 import { CourseRepository, IGetCourseQuery } from './course-repository';
 import { prismaArchiveCourse } from './functions/archive-course';
+import { prismaChangeCourseClassCount } from './functions/change-course-class-count';
+import { prismaChangeCourseStudentsCount } from './functions/change-course-students-count';
 import { prismaCorseHasStudents } from './functions/course-has-students';
 import { prismaCreateCourse } from './functions/create-course';
 import { prismaDeleteCourse } from './functions/delete-course';
@@ -16,6 +19,14 @@ import { prismaUpdateStudentCheckoutSession } from './functions/update-course-st
 import { prismaUpdateCourseStudentPaymentStatus } from './functions/update-course-student-payment-status';
 
 export class PrismaCourseRepository implements CourseRepository {
+  async changeCourseClassCount(courseId: string, operation: CountOperation): Promise<void> {
+    await prismaChangeCourseClassCount(courseId, operation);
+  }
+
+  async changeCourseStudentsCount(courseId: string, operation: CountOperation): Promise<void> {
+    await prismaChangeCourseStudentsCount(courseId, operation);
+  }
+
   async archiveCourse(courseId: string): Promise<void> {
     await prismaArchiveCourse(courseId);
   }

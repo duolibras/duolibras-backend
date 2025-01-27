@@ -35,7 +35,7 @@ export class GetModulesUseCase implements IUseCase<IInput, IOutput> {
     }
 
     if (accountRole === Roles.STUDENT) {
-      const journey = await this.journeyRepo.getMyJourney(accountId);
+      const journey = await this.journeyRepo.getJourney(accountId);
 
       journey.units.forEach((unit) =>
         unit.chapters.forEach((chapter) => {
