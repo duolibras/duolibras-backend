@@ -5,7 +5,7 @@ import { CourseStudentPaymentStatus } from '../entities/course-student';
 
 
 type RawCourseWithStudent = RawCourse & {
-  students: {
+  students?: {
     paymentStatus: RawCourseStudentPaymentStatus;
   }[];
 }
