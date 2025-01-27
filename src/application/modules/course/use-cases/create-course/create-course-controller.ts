@@ -1,6 +1,7 @@
 import { IController } from '@/application/shared/http/interfaces/controller';
 import { IHttpRequest, IHttpResponse } from '@/application/shared/http/interfaces/http';
 import { HttpResponse } from '@/application/shared/http/response/http-response';
+import { presignedPostFileSchema } from '@/application/shared/schemas/presigned-post-file-schema';
 import { z } from 'zod';
 import { CourseMapper } from '../../mappers/course-mapper';
 import { CreateCourseUseCase } from './create-course-use-case';
@@ -12,6 +13,10 @@ const schema = z.object({
   preemium: z.boolean(),
   priceInCents: z.number().optional(),
   archived: z.boolean().optional().transform(v => !!v),
+  files: z.object({
+    banner: presignedPostFileSchema.optional(),
+    video: presignedPostFileSchema.optional(),
+  }).optional(),
 });
 
 export class CreateCourseController implements IController {

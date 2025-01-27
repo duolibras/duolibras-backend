@@ -15,6 +15,7 @@ export interface CourseRepository {
   createCourse(course: Course): Promise<void>;
   updateCourse(course: Course): Promise<void>;
   deleteCourse(courseId: string): Promise<void>;
+  getCoursePreviewKey(courseId: string): Promise<string | null>;
 
   courseHasStudents(courseId: string): Promise<boolean>;
   archiveCourse(courseId: string): Promise<void>;

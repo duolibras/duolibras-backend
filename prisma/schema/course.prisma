@@ -13,8 +13,8 @@ model Course {
   bannerKey String? @unique
   videoKey  String? @unique
 
-  banner File? @relation(fields: [bannerKey], references: [fileKey], name: "course_banner_file")
-  video  File? @relation(fields: [videoKey], references: [fileKey], name: "course_video_file")
+  banner File? @relation(fields: [bannerKey], references: [fileKey], name: "course_banner_file", onDelete: SetNull)
+  video  File? @relation(fields: [videoKey], references: [fileKey], name: "course_video_file", onDelete: SetNull)
 
   teacher  Account         @relation(fields: [teacherId], references: [id])
   classes  Class[]

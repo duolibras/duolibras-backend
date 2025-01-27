@@ -20,7 +20,6 @@ export class GetCoursesUseCase implements IUseCase<IInput, IOutput> {
   ) {}
 
   async execute({ accountId, ...query }: IInput): Promise<IOutput> {
-    console.log(accountId, query);
     const courses = await this.courseRepo.getCourses(accountId, query);
 
     return {

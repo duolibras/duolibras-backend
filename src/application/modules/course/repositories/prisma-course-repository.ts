@@ -9,6 +9,7 @@ import { prismaCorseHasStudents } from './functions/course-has-students';
 import { prismaCreateCourse } from './functions/create-course';
 import { prismaDeleteCourse } from './functions/delete-course';
 import { prismaGetCourse } from './functions/get-course';
+import { prismaGetCoursePreviewKey } from './functions/get-course-preview';
 import { prismaGetCourseStudent } from './functions/get-course-student';
 import { prismaGetCourseStudentByCheckoutSessionId } from './functions/get-course-student-by-checkout-session-id';
 import { prismaGetCourses } from './functions/get-courses';
@@ -19,6 +20,10 @@ import { prismaUpdateStudentCheckoutSession } from './functions/update-course-st
 import { prismaUpdateCourseStudentPaymentStatus } from './functions/update-course-student-payment-status';
 
 export class PrismaCourseRepository implements CourseRepository {
+  async getCoursePreviewKey(courseId: string): Promise<string | null> {
+    return prismaGetCoursePreviewKey(courseId);
+  }
+
   async changeCourseClassCount(courseId: string, operation: CountOperation): Promise<void> {
     await prismaChangeCourseClassCount(courseId, operation);
   }
