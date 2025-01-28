@@ -1,4 +1,4 @@
-import { Account } from '../entities/account';
+import { Account } from '@/application/modules/account/entities/account';
 
 export interface AuthRepository {
   findByEmail(email: string): Promise<Account | null>;

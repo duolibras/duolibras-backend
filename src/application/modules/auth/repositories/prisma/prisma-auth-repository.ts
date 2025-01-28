@@ -1,5 +1,5 @@
 
-import { Account } from '../../entities/account';
+import { Account } from '@/application/modules/account/entities/account';
 import { AuthRepository } from '../auth-repository';
 import { prismaAccountExists } from './functions/account-exists';
 

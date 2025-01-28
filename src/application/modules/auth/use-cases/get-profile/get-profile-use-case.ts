@@ -1,6 +1,6 @@
+import { Account } from '@/application/modules/account/entities/account';
 import { NotFoundHTTPError } from '@/application/shared/http/errors/not-found-http-error';
 import { IUseCase } from '@/application/shared/http/interfaces/use-case';
-import { Account } from '../../entities/account';
 import { AuthRepository } from '../../repositories/auth-repository';
 
 interface IInput {

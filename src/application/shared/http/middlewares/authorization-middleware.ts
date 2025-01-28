@@ -1,5 +1,5 @@
 
-import { Roles } from '@/application/modules/auth/entities/account';
+import { Roles } from '@/application/modules/account/entities/account';
 import { IHttpRequest, IHttpResponse } from '../interfaces/http';
 import { IData, IMiddleware } from '../interfaces/middleware';
 

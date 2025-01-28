@@ -1,6 +1,6 @@
 
 
-import { Roles } from '@/application/modules/auth/entities/account';
+import { Roles } from '@/application/modules/account/entities/account';
 
 import { makeCreateLessonController } from '@/application/modules/lesson/use-cases/create-lesson/factories/make-create-lesson-controller';
 import { makeDeleteLessonController } from '@/application/modules/lesson/use-cases/delete-lesson/factories/make-delete-lesson-controller';

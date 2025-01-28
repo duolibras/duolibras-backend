@@ -2,4 +2,6 @@ enum UserJourneyStatus {
   ACCOMPLISHED
   AVAILABLE
   UNAVAILABLE
+
+  @@map("user_journey_status")
 }

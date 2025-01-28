@@ -10,9 +10,14 @@ model Account {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
 
+  paymentDetails           AccountPaymentDetails?
   unitUserJourneyStatus    UnitUserJourneyStatus[]
   lessonUserJourneyStatus  LessonUserJourneyStatus[]
   chapterUserJourneyStatus ChapterUserJourneyStatus[]
+  coursesAuthor            Course[]
+  coursesStudent           CourseStudent[]
+  classesStudent           ClassStudent[]
+  classesAuthor            Class[]
 
   @@map("accounts")
 }
@@ -28,4 +33,26 @@ model Role {
 
   @@index([code])
   @@map("roles")
+}
+
+enum AccountPaymentDetailsStatus {
+  EXPIRED
+  PENDING
+  COMPLETED
+
+  @@map("account_payment_details_status")
+}
+
+model AccountPaymentDetails {
+  id              String                      @id
+  accountId       String                      @unique @map("account_id")
+  stripeAccountId String                      @unique @map("stripe_account_id")
+  status          AccountPaymentDetailsStatus @default(PENDING)
+
+  account Account @relation(fields: [accountId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("accounts_payment_details")
 }

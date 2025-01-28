@@ -1,6 +1,8 @@
 enum QuestionType {
   VIDEO
   SINGLE_CHOICE
+
+  @@map("question_type")
 }
 
 model Question {

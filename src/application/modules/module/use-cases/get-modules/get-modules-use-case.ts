@@ -1,4 +1,4 @@
-import { Roles } from '@/application/modules/auth/entities/account';
+import { Roles } from '@/application/modules/account/entities/account';
 import { UserJourneyStatus } from '@/application/modules/journey/entities/journey';
 import { JourneyRepository } from '@/application/modules/journey/repositories/journey-repository';
 import { LessonRepository } from '@/application/modules/lesson/repositories/lesson-repository';
@@ -35,7 +35,7 @@ export class GetModulesUseCase implements IUseCase<IInput, IOutput> {
     }
 
     if (accountRole === Roles.STUDENT) {
-      const journey = await this.journeyRepo.getMyJourney(accountId);
+      const journey = await this.journeyRepo.getJourney(accountId);
 
       journey.units.forEach((unit) =>
         unit.chapters.forEach((chapter) => {

@@ -1,6 +1,6 @@
 
 
-import { Roles } from '@/application/modules/auth/entities/account';
+import { Roles } from '@/application/modules/account/entities/account';
 import { makeAnswerQuestionJourneyController } from '@/application/modules/journey/use-cases/answer-question-journey/factories/make-answer-question-journey-controller';
 import { makeCompleteLessonJourneyController } from '@/application/modules/journey/use-cases/complete-lesson-journey/factories/make-complete-lesson-journey-controller';
 import { makeGetMyJourneyController } from '@/application/modules/journey/use-cases/get-my-journey/factories/make-get-my-journey-controller';

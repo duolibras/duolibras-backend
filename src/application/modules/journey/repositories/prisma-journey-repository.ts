@@ -8,7 +8,7 @@ export class PrismaJourneyRepository implements JourneyRepository {
     await prismaCompleteLesson(lessonId, accountId);
   }
 
-  async getMyJourney(accountId: string): Promise<Journey> {
+  async getJourney(accountId?: string): Promise<Journey> {
     return prismaGetMyJourney(accountId);
   }
 }

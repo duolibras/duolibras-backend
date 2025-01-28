@@ -1,6 +1,6 @@
 
 
-import { Roles } from '@/application/modules/auth/entities/account';
+import { Roles } from '@/application/modules/account/entities/account';
 
 import { makeCreateChapterController } from '@/application/modules/chapter/use-cases/create-chapter/factories/make-create-chapter-controller';
 import { makeDeleteChapterController } from '@/application/modules/chapter/use-cases/delete-chapter/factories/make-delete-chapter-controller';

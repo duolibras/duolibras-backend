@@ -1,0 +1,51 @@
+model Course {
+  id             String  @id
+  name           String
+  description    String
+  priceInCents   Float?  @map("price_in_cents")
+  preemium       Boolean
+  classCount     Int     @map("class_count")
+  teacherId      String  @map("teacher_id")
+  stripeCourseId String? @unique @map("stripe_course_id")
+  studentsCount  Int     @default(0) @map("students_count")
+  archived       Boolean @default(false)
+
+  bannerKey String? @unique
+  videoKey  String? @unique
+
+  banner File? @relation(fields: [bannerKey], references: [fileKey], name: "course_banner_file", onDelete: SetNull)
+  video  File? @relation(fields: [videoKey], references: [fileKey], name: "course_video_file", onDelete: SetNull)
+
+  teacher  Account         @relation(fields: [teacherId], references: [id])
+  classes  Class[]
+  students CourseStudent[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@map("courses")
+}
+
+enum CourseStudentPaymentStatus {
+  EXPIRED
+  PENDING
+  APPROVED
+}
+
+model CourseStudent {
+  studentId         String                     @map("student_id")
+  courseId          String                     @map("course_id")
+  feedbackRate      Float?                     @map("feedback_rate")
+  checkoutSessionId String?                    @unique @map("checkout_session_id")
+  paymentStatus     CourseStudentPaymentStatus
+  checkoutUrl       String?                    @map("checkout_url")
+
+  student Account @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  course  Course  @relation(fields: [courseId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")
+
+  @@id([studentId, courseId])
+  @@map("courses_students")
+}

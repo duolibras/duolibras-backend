@@ -1,5 +1,4 @@
-
-import { Roles } from '@/application/modules/auth/entities/account';
+import { Roles } from '@/application/modules/account/entities/account';
 import { Role } from '@/application/modules/auth/entities/role';
 import { makeSignUpUseCase } from '@/application/modules/auth/use-cases/sign-up/factories/make-sign-up-use-case';
 import { prismaClient } from '@/application/shared/clients/prisma-clients';

@@ -6,6 +6,7 @@ export function middlewareAdapter(middleware: IMiddleware) {
     try {
       const result = await middleware.handle({
         body: request.body,
+        query: request.query,
         params: request.params,
         account: request.metadata?.account,
         headers: request.headers as Record<string, string>,
