@@ -1,3 +1,4 @@
+import { CourseRepository } from '@/application/modules/course/repositories/course-repository';
 import { FileRepository } from '@/application/modules/file/repositories/file-repository';
 import { ForbiddenHTTPError } from '@/application/shared/http/errors/forbidden-http-error';
 import { NotFoundHTTPError } from '@/application/shared/http/errors/not-found-http-error';
@@ -15,6 +16,7 @@ type IOutput = void;
 export class DeleteClassUseCase implements IUseCase<IInput, IOutput> {
   constructor(
     private readonly classRepo: ClassRepository,
+    private readonly courseRepo: CourseRepository,
     private readonly fileRepo: FileRepository,
     private readonly storageProvider: StorageProvider,
   ) {}
@@ -41,5 +43,7 @@ export class DeleteClassUseCase implements IUseCase<IInput, IOutput> {
     }
 
     await this.classRepo.deleteClass(classId);
+
+    await this.courseRepo.changeCourseClassCount(classCourse.courseId, 'DECREMENT');
   }
 }

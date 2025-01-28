@@ -76,6 +76,8 @@ export class CreateClassUseCase implements IUseCase<IInput, IOutput> {
 
     await this.classRepo.createClass(courseClass);
 
+    await this.courseRepo.changeCourseClassCount(courseId, 'INCREMENT');
+
     return {
       courseClass,
     };
