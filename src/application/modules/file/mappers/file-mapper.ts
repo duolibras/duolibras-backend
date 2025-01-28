@@ -1,8 +1,14 @@
+import { GeneratePresignedPostResult } from '@/application/shared/providers/storage-provider/storage-provider';
 import { Prisma, File as RawFile } from '@prisma/client';
 import { File, FileStatus } from '../entities/file';
 
 export class FileMapper {
-  static toPersistence(data: File): Prisma.FileCreateInput {
+  static toPersistence(fileKey: string): Prisma.FileCreateInput {
+    const data = new File({
+      fileKey,
+      status: FileStatus.PENDING,
+    });
+
     return {
       fileKey: data.fileKey,
       status: data.status,
@@ -24,6 +30,13 @@ export class FileMapper {
     return file?.presignedPost && {
       url: file.presignedPost.presignedUrl,
       fields: file.presignedPost.fields,
+    };
+  }
+
+  static rawPresignedToHttp(presigned?: GeneratePresignedPostResult | null) {
+    return presigned && {
+      url: presigned.presignedUrl,
+      fields: presigned.fields,
     };
   }
 }

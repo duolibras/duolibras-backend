@@ -13,10 +13,12 @@ export interface CourseProps extends IEntityProps {
   teacherId: string;
   stripeCourseId?: string | null;
   owned?: boolean;
-  banner?: File | null;
-  video?: File | null;
+  bannerKey?: string | null;
+  videoKey?: string | null;
   bannerUrl?: string | null;
   videoUrl?: string | null;
+  banner?: File | null;
+  video?: File | null;
 }
 
 export class Course extends Entity {
@@ -25,7 +27,7 @@ export class Course extends Entity {
   constructor(props: CourseProps) {
     super(props);
     this.props = props;
-    this.props.bannerUrl = props.banner && AWSS3StorageProvider.generatePublicUrl(props.banner.fileKey);
+    this.props.bannerUrl = props.bannerKey && AWSS3StorageProvider.generatePublicUrl(props.bannerKey);
   }
 
   public get name(): string {
@@ -72,18 +74,34 @@ export class Course extends Entity {
     this.props.stripeCourseId = stripeCourseId;
   }
 
+  public get bannerKey(): string | null {
+    return this.props.bannerKey ?? null;
+  }
+
+  public set bannerKey(bannerKey: string | undefined | null) {
+    if (!bannerKey) return;
+    this.props.bannerKey = bannerKey;
+    this.props.bannerUrl = AWSS3StorageProvider.generatePublicUrl(bannerKey);
+  }
+
+  public get videoKey(): string | null {
+    return this.props.videoKey ?? null;
+  }
+
   public get banner(): File | null {
     return this.props.banner ?? null;
   }
 
-  public set banner(banner: File | undefined | null) {
-    if (!banner) return;
-    this.props.banner = banner;
-    this.props.bannerUrl = AWSS3StorageProvider.generatePublicUrl(banner.fileKey);
-  }
-
   public get video(): File | null {
     return this.props.video ?? null;
+  }
+
+  public set banner(file: File | null | undefined) {
+    this.props.banner = file;
+  }
+
+  public set video(file: File | null | undefined) {
+    this.props.video = file;
   }
 
   public get bannerUrl(): string | null {

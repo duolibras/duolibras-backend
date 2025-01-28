@@ -42,9 +42,11 @@ export class AWSS3StorageProvider implements StorageProvider {
       Conditions: [
         ['content-length-range', fileSize, fileSize],
         { 'Content-Type': fileType },
+        { 'Content-Disposition': 'inline' }
       ],
       Fields: {
         'Content-Type': fileType,
+        'Content-Disposition': 'inline',
       },
     });
 
@@ -59,7 +61,7 @@ export class AWSS3StorageProvider implements StorageProvider {
     const command = new GetObjectCommand({
       Bucket: env.awsS3.bucketName,
       Key: fileKey,
-      ResponseContentType: video ? 'video/mp4' : 'application/octet-stream',
+      ResponseContentType: video ? 'video/mp4' : '',
     });
 
     return getSignedUrl(this.s3, command, {

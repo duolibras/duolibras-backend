@@ -2,12 +2,18 @@ model Class {
   id          String  @id
   name        String
   description String
-  bannerKey   String? @map("banner_key")
-  videoKey    String? @map("video_key")
+  bannerKey   String? @unique @map("banner_key")
+  videoKey    String? @unique @map("video_key")
   courseId    String  @unique @map("course_id")
+  teacherId   String  @unique @map("teacher_id")
+  archived    Boolean @default(false)
 
+  teacher  Account        @relation(fields: [teacherId], references: [id], onDelete: Cascade)
   course   Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
   students ClassStudent[]
+
+  banner File? @relation(fields: [bannerKey], references: [fileKey], name: "class_banner_file", onDelete: SetNull)
+  video  File? @relation(fields: [videoKey], references: [fileKey], name: "class_video_file", onDelete: SetNull)
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt() @map("updated_at")

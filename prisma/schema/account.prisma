@@ -17,6 +17,7 @@ model Account {
   coursesAuthor            Course[]
   coursesStudent           CourseStudent[]
   classesStudent           ClassStudent[]
+  classesAuthor            Class[]
 
   @@map("accounts")
 }

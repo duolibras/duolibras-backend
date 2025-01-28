@@ -1,5 +1,4 @@
 import { Prisma, Course as RawCourse, CourseStudentPaymentStatus as RawCourseStudentPaymentStatus } from '@prisma/client';
-import { File, FileStatus } from '../../file/entities/file';
 import { FileMapper } from '../../file/mappers/file-mapper';
 import { Course } from '../entities/course';
 import { CourseStudentPaymentStatus } from '../entities/course-student';
@@ -30,15 +29,15 @@ export class CourseMapper {
         }
       },
       banner: {
-        connectOrCreate: domain.banner ? {
-          create: FileMapper.toPersistence(domain.banner),
-          where: { fileKey: domain.banner.fileKey }
+        connectOrCreate: domain.bannerKey ? {
+          create: FileMapper.toPersistence(domain.bannerKey),
+          where: { fileKey: domain.bannerKey }
         } : undefined
       },
       video: {
-        connectOrCreate: domain.video ? {
-          create: FileMapper.toPersistence(domain.video),
-          where: { fileKey: domain.video.fileKey }
+        connectOrCreate: domain.videoKey ? {
+          create: FileMapper.toPersistence(domain.videoKey),
+          where: { fileKey: domain.videoKey }
         } : undefined
       },
       createdAt: domain.createdAt,
@@ -55,14 +54,8 @@ export class CourseMapper {
       description: data.description,
       classCount: data.classCount,
       preemium: data.preemium,
-      banner: data.bannerKey ? new File({
-        fileKey: data.bannerKey,
-        status: FileStatus.UPLOADED,
-      }) : undefined,
-      video: data.videoKey ? new File({
-        fileKey: data.videoKey,
-        status: FileStatus.UPLOADED,
-      }) : undefined,
+      bannerKey: data.bannerKey,
+      videoKey: data.videoKey,
       studentsCount: data.studentsCount,
       archived: data.archived,
       priceInCents: data.priceInCents ?? 0,
@@ -91,8 +84,8 @@ export class CourseMapper {
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
       presignedUrls: {
-        banner: FileMapper.presignedToHttp(data.banner),
-        video: FileMapper.presignedToHttp(data.video),
+        banner: data.banner && FileMapper.presignedToHttp(data.banner),
+        video: data.video && FileMapper.presignedToHttp(data.video),
       }
     };
   }
@@ -103,7 +96,7 @@ export class CourseMapper {
       name: data.name,
       description: data.description,
       bannerUrl: data.bannerUrl,
-      hasVideoPreview: !!data.video,
+      hasVideoPreview: !!data.videoKey,
       preemium: data.preemium,
       priceInCents: data.priceInCents,
       classCount: data.classCount,
