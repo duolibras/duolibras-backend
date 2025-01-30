@@ -1,5 +1,4 @@
 import { InternalServerHTTPError } from '@/application/shared/http/errors/internal-server-http-error';
-import { HttpMapper } from '@/application/shared/mappers/mapper';
 import { Prisma, AccountPaymentDetails as RawAccountPaymentDetails } from '@prisma/client';
 import { AccountPaymentDetails, AccountPaymentDetailsStatus } from '../entities/account-payment-details';
 
@@ -33,7 +32,7 @@ export class AccountPaymentDetailsMapper {
     });
   }
 
-  static toHttp(data: AccountPaymentDetails): HttpMapper<AccountPaymentDetails> {
+  static toHttp(data: AccountPaymentDetails) {
     return {
       id: data.id,
       accountId: data.accountId,
