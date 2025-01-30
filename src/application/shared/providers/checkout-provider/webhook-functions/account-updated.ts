@@ -3,6 +3,7 @@ import { AccountRepository } from '@/application/modules/account/repositories/ac
 import Stripe from 'stripe';
 
 export function accountUpdate(account: Stripe.Account, accountsRepo: AccountRepository) {
+  console.log('oi cheguei aqui');
   return async () => {
     if (
       account.charges_enabled &&

@@ -4,7 +4,17 @@ import { AccountMapper } from '@/application/modules/account/mappers/account-map
 import { prismaClient } from '@/application/shared/clients/prisma-clients';
 
 export async function prismaGetProfile(id: string): Promise<Account | null> {
-  const account = await prismaClient.account.findUnique({ where: { id } });
+  const account = await prismaClient.account.findUnique({
+    where: { id },
+    include: {
+      paymentDetails: {
+        select: {
+          stripeAccountId: true,
+          status: true,
+        }
+      }
+    }
+  });
 
   if (!account) {
     return null;
