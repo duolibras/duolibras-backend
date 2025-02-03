@@ -29,15 +29,15 @@ export class CourseMapper {
         }
       },
       banner: {
-        connectOrCreate: domain.bannerKey ? {
-          create: FileMapper.toPersistence(domain.bannerKey),
-          where: { fileKey: domain.bannerKey }
+        connectOrCreate: domain.banner?.fileKey ? {
+          create: FileMapper.toPersistence(domain.banner?.fileKey),
+          where: { fileKey: domain.banner?.fileKey }
         } : undefined
       },
       video: {
-        connectOrCreate: domain.videoKey ? {
-          create: FileMapper.toPersistence(domain.videoKey),
-          where: { fileKey: domain.videoKey }
+        connectOrCreate: domain.video?.fileKey ? {
+          create: FileMapper.toPersistence(domain.video?.fileKey),
+          where: { fileKey: domain.video?.fileKey }
         } : undefined
       },
       createdAt: domain.createdAt,

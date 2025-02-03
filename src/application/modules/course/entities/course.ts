@@ -27,6 +27,7 @@ export class Course extends Entity {
   constructor(props: CourseProps) {
     super(props);
     this.props = props;
+    console.log(props.bannerKey);
     this.props.bannerUrl = props.bannerKey && AWSS3StorageProvider.generatePublicUrl(props.bannerKey);
   }
 
