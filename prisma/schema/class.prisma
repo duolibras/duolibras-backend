@@ -4,8 +4,8 @@ model Class {
   description String
   bannerKey   String? @unique @map("banner_key")
   videoKey    String? @unique @map("video_key")
-  courseId    String  @unique @map("course_id")
-  teacherId   String  @unique @map("teacher_id")
+  courseId    String  @map("course_id")
+  teacherId   String  @map("teacher_id")
   archived    Boolean @default(false)
 
   teacher  Account        @relation(fields: [teacherId], references: [id], onDelete: Cascade)
