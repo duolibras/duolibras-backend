@@ -74,8 +74,12 @@ export class StripeCheckoutProvider implements CheckoutProvider {
   }
 
   static calculateRevenueSplit(totalAmount: number): ICalculateRevenueSplit {
-    const platformFee = Math.round(totalAmount * 0.15 * 100) / 100;
-    const teacherEarnings = totalAmount - platformFee;
+    const microContent = totalAmount <= 1000;
+    const percentage = microContent ? 0.15 : 0.05;
+
+    const fixTax = microContent ? 0 : 1;
+    const platformFee = Math.round(totalAmount * percentage * 100) / 100;
+    const teacherEarnings = totalAmount - (platformFee + fixTax);
 
     return { platformFee, teacherEarnings };
   }
