@@ -19,9 +19,10 @@ export function checkoutSessionUpdated(
       await courseRepo.changeCourseStudentsCount(courseStudent.id, 'INCREMENT');
     }
 
-    if (status === 'expired' && paymentStatus === 'unpaid') {
-      courseStudent.paymentStatus = CourseStudentPaymentStatus.EXPIRED;
-    }
+    // TODO: no futuro só gerar um link de checkout, para não expirar algo já pago
+    // if (status === 'expired' && paymentStatus === 'unpaid') {
+    //   courseStudent.paymentStatus = CourseStudentPaymentStatus.EXPIRED;
+    // }
 
 
     await courseRepo.updateCourseStudentPaymentStatus(courseStudent);
