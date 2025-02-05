@@ -73,7 +73,7 @@ export class StripeCheckoutProvider implements CheckoutProvider {
     );
   }
 
-  calculateRevenueSplit(totalAmount: number): ICalculateRevenueSplit {
+  static calculateRevenueSplit(totalAmount: number): ICalculateRevenueSplit {
     const real = 100;
     const microContent = totalAmount <= (10 * real);
     const platformPercentage = microContent ? 15 : 8.99;
