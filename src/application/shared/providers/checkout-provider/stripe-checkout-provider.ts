@@ -73,15 +73,22 @@ export class StripeCheckoutProvider implements CheckoutProvider {
     );
   }
 
-  static calculateRevenueSplit(totalAmount: number): ICalculateRevenueSplit {
-    const microContent = totalAmount <= 1000;
-    const percentage = microContent ? 0.15 : 0.05;
+  calculateRevenueSplit(totalAmount: number): ICalculateRevenueSplit {
+    const real = 100;
+    const microContent = totalAmount <= (10 * real);
+    const platformPercentage = microContent ? 15 : 8.99;
+    const platformFixTax = microContent ? 0 : real;
 
-    const fixTax = microContent ? 0 : 1;
-    const platformFee = Math.round(totalAmount * percentage * 100) / 100;
-    const teacherEarnings = totalAmount - (platformFee + fixTax);
+    const platformGrossFee = ((totalAmount * platformPercentage)) / 100 + platformFixTax;
 
-    return { platformFee, teacherEarnings };
+    const stripePercentage = 3.99;
+    const stripeFixTax = 39;
+    const stripeFee = ((totalAmount * stripePercentage) / 100) + stripeFixTax;
+
+    const platformNetFee = Math.round(platformGrossFee - stripeFee);
+    const teacherEarnings = totalAmount - platformGrossFee;
+
+    return { platformFee: platformNetFee, teacherEarnings };
   }
 
   createSubscription(studentId: string, planId: string): Promise<object> {
