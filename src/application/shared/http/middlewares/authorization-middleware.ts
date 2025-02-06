@@ -1,5 +1,6 @@
 
 import { Roles } from '@/application/modules/account/entities/account';
+import { ForbiddenHTTPError } from '../errors/forbidden-http-error';
 import { IHttpRequest, IHttpResponse } from '../interfaces/http';
 import { IData, IMiddleware } from '../interfaces/middleware';
 
@@ -12,12 +13,7 @@ export class AuthorizationMiddleware implements IMiddleware {
 
   async handle({ account }: IHttpRequest): Promise<IHttpResponse | IData> {
     if (!account) {
-      return {
-        statusCode: 403,
-        body: {
-          error: 'Access Denied.',
-        },
-      };
+      throw new ForbiddenHTTPError('Access denied');
     }
 
     const isAllowed = this.requiredRoles.some(role => (
@@ -25,12 +21,7 @@ export class AuthorizationMiddleware implements IMiddleware {
     ));
 
     if (!isAllowed) {
-      return {
-        statusCode: 403,
-        body: {
-          error: 'Access Denied.',
-        },
-      };
+      throw new ForbiddenHTTPError('Access denied');
     }
 
     return {
