@@ -14,9 +14,9 @@ export class HandleApplicationErrorMiddleware implements IErrorMiddleware {
 
         if (e.path.length) {
           return message + '. Erro em: ' + e.path;
-        } else {
-          return message;
         }
+        
+        return message;
       });
 
       return {
